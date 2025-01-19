@@ -50,7 +50,7 @@ class RenderMarkdownNode(INode[PostProcessingState]):
         avg_groundedness_score, min_groundedness_score = self._get_groundedness_score(state)
         return load_prompt("post_processing", f"markdown_{state.content.language.value}").render({
             "episode_number": state.setup.episode_number,
-            "date": state.setup.date.strftime("%A the %B %d, %Y"),
+            "date": state.preparation.date.strftime("%A the %B %d, %Y"),
             "teaser": state.content.core_teaser,
             "interview": self._get_interview_text(state),
             "average_redundancy_score": f"{avg_redundancy_score * 100:.0f}%",

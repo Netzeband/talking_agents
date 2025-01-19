@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from pathlib import Path
 from typing import Any
+from datetime import datetime
 
 from talking_agents.common import textwrap
 
@@ -35,6 +36,7 @@ class Question(BaseModel):
 
 
 class PreparationContent(BaseModel):
+    date: datetime | None = None
     title: str | None = None
     introduction: str | None = None
     questions: list[Question] | None = None
@@ -63,6 +65,7 @@ class PreparationContent(BaseModel):
 
     def __str__(self) -> str:
         content_string = ""
+        content_string += f"* Podcast Date: {self.date.strftime("%A the %B %d, %Y")}\n"
         content_string += f"* Paper Tile: {self.title}\n"
         content_string += f"* Image Descriptions: {self._get_image_descriptions(self.image_descriptions)}\n"
         content_string += f"* Vector Store Entries: {self.vector_store_entries}\n"

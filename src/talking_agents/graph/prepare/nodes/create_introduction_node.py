@@ -29,7 +29,7 @@ class CreateIntroductionNode(INode[PrepareState]):
                     "role_description": state.setup.moderator.get_role_description(),
                     "paper_title": state.content.title,
                     "guest_info": state.setup.guest.get_additional_information(),
-                    "date": state.setup.date.strftime("%A the %B %d, %Y"),
+                    "date": state.content.date.strftime("%A the %B %d, %Y"),
                     "episode_number": state.setup.episode_number,
                 }
             )),

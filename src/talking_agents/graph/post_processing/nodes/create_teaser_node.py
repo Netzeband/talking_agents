@@ -36,7 +36,7 @@ class CreateTeaserNode(INode[PostProcessingState]):
             "system_prompt": load_prompt("post_processing", "create_teaser").render({
                 "paper_title": state.preparation.title,
                 "episode_number": state.setup.episode_number,
-                "date": state.setup.date.strftime("%A the %B %d, %Y"),
+                "date": state.preparation.date.strftime("%A the %B %d, %Y"),
                 "role_description": state.setup.moderator.get_role_description(),
                 "guest_name": state.setup.guest.name,
                 "language": get_language_name(state.content.language),
