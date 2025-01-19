@@ -1,2 +1,2 @@
-# talking_agents
-An application to create podcasts out of arxiv research papers.
+# Talking Agents
+An AI tool for creating podcasts out of arxiv research papers. 

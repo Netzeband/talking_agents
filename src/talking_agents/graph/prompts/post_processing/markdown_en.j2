@@ -1,0 +1,34 @@
+# Talking Agents - Episode {{ episode_number }}
+
+_Recording date: {{ date }}_
+
+_DISCLAIMER: This interview is 100% made by AI!_
+
+_{{ teaser }}_
+
+{{ interview }}
+
+## Quality KPIs
+
+When questions are poorly phrased, they can strongly overlap in content. The current implementation can detect this
+redundancy in the answers but cannot compensate for it. Addressing this issue will be a feature in an upcoming
+implementation. Therefore, the redundancy score serves as a measure of question quality. It is calculated individually
+for each question-answer pair.
+
+* Average Redundancy Score: {{ average_redundancy_score }}
+* Maximum Redundancy Score: {{ max_redundancy_score }}
+
+When the guest AI provides an answer, it may occasionally not be based on the sources but instead be hallucinated or
+derived from the general knowledge of the foundational model. The current implementation includes a measurement to
+assess how strongly each aspect of the answer is grounded in the referenced sources. It also has a feature to prevent
+answers with a groundedness score lower than {{ min_accepted_groundedness_score }}. The groundedness score is
+calculated individually for each question-answer pair.
+
+* Average Groundedness Score: {{ average_groundedness_score }}
+* Minimum Groundedness Score: {{ min_groundedness_score }}
+
+## Sources
+
+The following sources have been used:
+* Paper "{{ paper_title }}" [{{ paper_url }}]({{ paper_url }})
+{{ web_sources }}

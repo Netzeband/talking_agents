@@ -1,0 +1,14 @@
+# calculated from beginning of intro music in milliseconds
+intro_speech_start: 2000
+# calculated from end of intro music in milliseconds
+podcast_start: -2000
+# calculated from end of podcast in milliseconds
+outro_start: -5000
+# in dB
+intro_level: -6
+# in dB
+outro_level: 3
+# in dB
+voice_level: 0
+# in dB
+podcast_level: 3

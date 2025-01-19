@@ -1,0 +1,4 @@
+- question: "What are sequence modeling and transduction models?"
+  example: "When the input question is about 'Sequence Transduction Models' the output question must also be about 'Sequence Transduction Models' and not about 'Sequence Transduction Tasks'!"
+- question: "What are sequence transduction models, and how does the Transformer architecture implement such a model?"
+  example: "When the input question is about 'Sequence Transduction Models' the output question must also be about 'Sequence Transduction Models' and not about 'Sequence Transduction approaches'!"

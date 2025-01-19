@@ -1,0 +1,94 @@
+from langgraph.graph import StateGraph, START, END
+from typeguard import typechecked
+import logging
+
+from talking_agents.graph.prepare.nodes import Nodes
+from talking_agents.graph.prepare.prepare_state import PrepareState
+from talking_agents.graph import INode
+from talking_agents.common.vector_store import VectorStore
+
+log = logging.getLogger(__name__)
+
+
+class PrepareGraph(INode[PrepareState]):
+    @typechecked()
+    def __init__(
+            self,
+            vector_store: VectorStore,
+            create_title_node: INode[PrepareState],
+            create_image_descriptions_node: INode[PrepareState],
+            create_vector_store_node: INode[PrepareState],
+            create_introduction_node: INode[PrepareState],
+            create_topics_node: INode[PrepareState],
+            prepare_questions_node: INode[PrepareState],
+            create_wrapup_node: INode[PrepareState],
+    ):
+        self._vector_store = vector_store
+
+        graph_builder = StateGraph(PrepareState)
+        graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
+        graph_builder.add_node(Nodes.CREATE_IMAGE_DESCRIPTIONS, create_image_descriptions_node.run)
+        graph_builder.add_node(Nodes.CREATE_VECTOR_STORE, create_vector_store_node.run)
+        graph_builder.add_node(Nodes.CREATE_INTRODUCTION, create_introduction_node.run)
+        graph_builder.add_node(Nodes.CREATE_TOPICS, create_topics_node.run)
+        graph_builder.add_node(Nodes.PREPARE_QUESTIONS, prepare_questions_node.run)
+        graph_builder.add_node(Nodes.CREATE_WRAP_UP, create_wrapup_node.run)
+
+        graph_builder.add_conditional_edges(START, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_IMAGE_DESCRIPTIONS, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_VECTOR_STORE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_INTRODUCTION, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_TOPICS, self._transition)
+        graph_builder.add_conditional_edges(Nodes.PREPARE_QUESTIONS, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_WRAP_UP, self._transition)
+
+        self._graph = graph_builder.compile()
+
+    @typechecked()
+    async def run(self, state: PrepareState) -> PrepareState:
+        log.info("Start prepare agent graph.")
+        result = PrepareState.model_validate(await self._graph.ainvoke(state))
+        return result
+
+    @typechecked()
+    def _transition(self, state: PrepareState) -> Nodes | str:
+        state.content.store(
+            output_path=state.setup.output_path,
+            episode_number=state.setup.episode_number,
+        )
+
+        if state.content.title is None:
+            log.info(" => Title not created ...")
+            return Nodes.CREATE_TITLE
+
+        if state.content.image_descriptions is None:
+            log.info(" => Image descriptions not created ...")
+            return Nodes.CREATE_IMAGE_DESCRIPTIONS
+
+        if (state.content.vector_store_entries is None or
+            not self._vector_store.is_ready() or
+            state.content.vector_store_entries != self._vector_store.get_number_of_entries()
+        ):
+            assert state.content.image_descriptions is not None
+            log.info(" => Vector store not created ...")
+            return Nodes.CREATE_VECTOR_STORE
+
+        if state.content.introduction is None:
+            log.info(" => Introduction not created ...")
+            return Nodes.CREATE_INTRODUCTION
+
+        if state.content.topics is None:
+            log.info(" => Topics not created ...")
+            return Nodes.CREATE_TOPICS
+
+        if state.content.questions is None or state.content.next_topic_index < len(state.content.topics):
+            log.info(" => Questions not created ...")
+            return Nodes.PREPARE_QUESTIONS
+
+        if state.content.wrapup is None:
+            log.info(" => Wrap-up not created ...")
+            return Nodes.CREATE_WRAP_UP
+
+        log.info(" => Finished prepare agent graph.")
+        return END

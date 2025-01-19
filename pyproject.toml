@@ -1,0 +1,36 @@
+[project]
+name = "talking-agents"
+version = "0.1.0"
+description = "An application for creating podcasts out of research papers."
+authors = [
+    {name = "André Netzeband", email = "talking-agents@netzeband.eu"},
+]
+dependencies = [
+    "python-dotenv>=1.0.1",
+    "pydantic-settings>=2.6.1",
+    "langchain>=0.3.10",
+    "langchain-core>=0.3.22",
+    "langchain-community==0.3.11",
+    "langgraph>=0.2.56",
+    "langchain-openai>=0.2.11",
+    "jinja2>=3.1.4",
+    "pytz>=2024.2",
+    "faiss-cpu>=1.9.0.post1",
+    "langchain-experimental>=0.3.3",
+    "typeguard>=4.4.1",
+    "azure-cognitiveservices-speech>=1.41.1",
+    "wave>=0.0.2",
+    "lxml>=5.3.0",
+    "pyaudacity>=0.1.3",
+    "pydub>=0.25.1",
+    "moviepy>=2.1.2",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+create = {call = "src.talking_agents.main:main()"}

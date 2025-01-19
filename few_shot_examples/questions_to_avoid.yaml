@@ -1,0 +1,8 @@
+ - question: "Why is the introduction section critical for understanding the key concepts introduced in the paper?"
+   alternative: "What are the key concepts introduced in this paper?"
+ - question: "What are the key concepts introduced in the introduction section of the paper, and how do they set the stage for the rest of the research?"
+   alternative: "What are the key concepts introduced in the paper, and how do they set the stage for the rest of the research?"
+ - question: "Can you explain what the introduction section of the paper addresses and how it sets the stage for subsequent sections?"
+   alternative: "What are the key concepts introduced in this paper?"
+ - question: "What distinguishes sequence transduction models, and why are they relevant to the Transformer architecture?"
+   alternative: "What are sequence transduction models, and how does the Transformer architecture implements such a model?"
