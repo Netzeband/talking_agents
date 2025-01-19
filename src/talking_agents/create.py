@@ -263,7 +263,7 @@ async def create(
             additional_information=[
                 "Institution: An AI Research Lab in Munich",
                 "Position: AI Agent and Machine Learning Researcher",
-                "One of Franks favorite podcast guests",
+#                "One of Franks favorite podcast guests",
             ],
             private_additional_information=[
                 ("Likes to do a joke about AIs does not have feeling, when getting asked 'how are you?' "
