@@ -41,7 +41,8 @@ class PreparationContent(BaseModel):
     introduction: str | None = None
     questions: list[Question] | None = None
     topics: list[str] | None = None
-    next_topic_index: int = 0
+    # noinspection PyDataclass
+    skipped_topics: list[str] = Field(default_factory=list)
     wrapup: str | None = None
     image_descriptions: dict[str, str] | None = None
     vector_store_entries: int | None = None

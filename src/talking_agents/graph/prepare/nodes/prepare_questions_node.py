@@ -25,16 +25,19 @@ class PrepareQuestionsNode(INode[PrepareState]):
             state.content.questions = []
 
         for i, topic in enumerate(state.content.topics):
-            log.info(f" * Prepare question for topic '{topic}'")
             new_questions = await self._prepare_question_for_topic(state, i, topic, state.content.questions)
             if len(new_questions) > 0:
                 state.content.questions.extend(new_questions)
-                state.content.store(
-                    output_path=state.setup.output_path,
-                    episode_number=state.setup.episode_number,
-                )
+
             else:
                 log.info(f" * Skip topic '{topic}', because no questions where found.")
+                if topic not in set([q.topic for q in state.content.questions]):
+                    state.content.skipped_topics.append(topic)
+
+            state.content.store(
+                output_path=state.setup.output_path,
+                episode_number=state.setup.episode_number,
+            )
 
         log.info(f"Prepared {len(state.content.questions)} for {len(state.content.topics)}.")
         return state
@@ -46,11 +49,13 @@ class PrepareQuestionsNode(INode[PrepareState]):
             topic: str,
             previous_questions: list[Question]
     ) -> list[Question]:
-        log.info(f"*** TOPIC {topic_index + 1}/{len(state.content.topics)}: {topic} ***")
-        if state.content.next_topic_index > topic_index:
-            log.info(" * Skip topic, because questions have already been generated.")
+        questions = state.content.questions or []
+        topics_already_handles = set([q.topic for q in questions] + state.content.skipped_topics)
+        if topic in topics_already_handles:
+            log.info(" * Skip topic '%s', because questions have already been generated.", topic)
             return []
 
+        log.info(f"*** TOPIC {topic_index + 1}/{len(state.content.topics)}: {topic} ***")
         result = PrepareQuestionState.model_validate(await self._prepare_question_graph.run(
             PrepareQuestionState(
                 setup=state.setup,
@@ -60,5 +65,4 @@ class PrepareQuestionsNode(INode[PrepareState]):
             )
         ))
 
-        state.content.next_topic_index = topic_index + 1
         return result.current_questions

@@ -2,6 +2,7 @@ from langgraph.graph import StateGraph, START, END
 from typeguard import typechecked
 import logging
 
+from talking_agents.graph.common.preparation_content import Question
 from talking_agents.graph.prepare.nodes import Nodes
 from talking_agents.graph.prepare.prepare_state import PrepareState
 from talking_agents.graph import INode
@@ -82,7 +83,10 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Topics not created ...")
             return Nodes.CREATE_TOPICS
 
-        if state.content.questions is None or state.content.next_topic_index < len(state.content.topics):
+        if (state.content.questions is None or
+                not self._is_every_topic_already_handled(
+                    state.content.topics, state.content.skipped_topics, state.content.questions
+                )):
             log.info(" => Questions not created ...")
             return Nodes.PREPARE_QUESTIONS
 
@@ -92,3 +96,14 @@ class PrepareGraph(INode[PrepareState]):
 
         log.info(" => Finished prepare agent graph.")
         return END
+
+
+    @staticmethod
+    @typechecked()
+    def _is_every_topic_already_handled(
+            topics: list[str],
+            skipped_topics: list[str],
+            questions: list[Question],
+    ) -> bool:
+        handled_topics = set([q.topic for q in questions] + skipped_topics)
+        return all([t in handled_topics for t in topics])
