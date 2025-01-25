@@ -38,12 +38,14 @@ class AdaptInterviewNode(INode[PostProcessingState]):
     @typechecked()
     async def _adapt_message(self, setup: PodcastSetup, message: Message) -> Message:
         persona = self._get_persona(setup, message.role)
-        text = escape(message.text)
+        original_text = escape(message.text)
         # we have to be careful with that, it needs a redesign and must be disabled in some cases:
         #  * sometimes it is drastically rewriting the text and not only adding SSML tags to it
         #  * sometimes it produces invalid SSML
         #  * ToDo: Try to fix those issues
-        text = await self._annotate_with_ssml(persona, text)
+        text = ""
+        while len(text) < len(original_text):
+            text = await self._annotate_with_ssml(persona, original_text)
 
         # when there is a comma in front of the name, the speaker always makes an award break
         text = re.sub(
