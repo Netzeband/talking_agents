@@ -15,13 +15,13 @@ class Persona(BaseModel):
     voice: dict[Languages, VoiceConfig]
 
     @classmethod
-    def from_file(cli, file_path: Path) -> "Persona":
+    def from_file(cls, file_path: Path) -> "Persona":
         with file_path.open("r") as f:
             data = yaml.safe_load(f)
         data["voice"] = {
             Languages(language): VoiceConfig(**voice_settings) for language, voice_settings in data["voice"].items()
         }
-        return Persona(**data)
+        return cls(**data)
 
     def get_role_description(self) -> str:
         return f"Your name is {self.name}. " + self.role_description

@@ -14,9 +14,9 @@ def main():
     settings = Settings()
     parser = argparse.ArgumentParser(description="Talking Agents creates audio files from arxiv papers.")
     parser.add_argument(
-        "--input-path",
+        "--episode-config-path",
         type=str,
-        help="The input path of the arxiv paper markdown file.",
+        help="Path of the episode config yaml file.",
         required=True,
     )
     parser.add_argument(
@@ -35,7 +35,7 @@ def main():
     )
     args = parser.parse_args()
     asyncio.run(create(
-        Path(args.input_path),
+        Path(args.episode_config_path),
         Path(args.output_path),
         args.step,
         settings,

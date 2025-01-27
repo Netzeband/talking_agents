@@ -5,16 +5,16 @@ from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_experimental.text_splitter import SemanticChunker
 from datetime import datetime
-from pytz import timezone
 from langgraph.prebuilt import ToolNode
 from langchain_openai import OpenAIEmbeddings
 from datetime import timedelta
+from dateutil.tz import tzlocal
 
 from talking_agents.settings import Settings
 from talking_agents.common import VectorStore
 from talking_agents.common.few_shot_examples import FewShotExamples
 from talking_agents.common.azure_speech_engine import create_azure_speech_engine
-from talking_agents.common import VoiceConfig, Languages
+from talking_agents.common import EpisodeConfig
 from talking_agents.document.section import Section, TextSection, ImageSection
 from talking_agents.graph.common.setup import Persona, PodcastSetup
 from talking_agents.graph.main import Graph, State, PodcastContent
@@ -48,14 +48,11 @@ from talking_agents.video_processing.audio_mixer import AudioMixer, MixerSetting
 from talking_agents.video_processing.video_mixer import VideoMixer
 
 async def create(
-        input_path: Path,
+        episode_config_path: Path,
         output_path: Path,
         max_state: str,
         settings: Settings,
 ):
-    sections = _prepare_input(input_path)
-
-
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
     vector_store = VectorStore(embeddings)
     paper_tools = [
@@ -223,19 +220,18 @@ async def create(
         ),
     )
 
-    persona_host = Persona.from_file(Path(r"D:\Projects\Python\projects\talking_agents\episode_configs\personas\host_frank.yaml"))
-    persona_guest = Persona.from_file(Path(r"D:\Projects\Python\projects\talking_agents\episode_configs\personas\guest_sandra.yaml"))
+    episode_config = EpisodeConfig.from_file(episode_config_path)
     setup = PodcastSetup(
         max_state=max_state,
-        date=datetime.now(tz=timezone("Europe/Berlin")),
-        episode_number=1,
-        document=sections,
-        document_path=PurePosixPath(input_path.as_posix()),
-        paper_url="https://arxiv.org/abs/1706.03762",
+        date=datetime.now(tz=tzlocal()),
+        episode_number=episode_config.episode_number,
+        document=_prepare_input(episode_config.document_path),
+        document_path=PurePosixPath(episode_config.document_path.as_posix()),
+        paper_url=str(episode_config.paper_url),
         output_path=output_path,
-        moderator=persona_host,
-        guest=persona_guest,
-        languages=[Languages.ENGLISH]
+        moderator=episode_config.moderator_persona,
+        guest=episode_config.guest_persona,
+        languages=episode_config.languages,
     )
     result = await graph.run(
         state=State(

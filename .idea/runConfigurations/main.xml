@@ -14,7 +14,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/talking_agents/main.py" />
-    <option name="PARAMETERS" value="--input-path=D:\Projects\Python\projects\doc_pipe\examples\output\arxiv_paper\1706.03762\markdown\1706.03762.md --output-path=output --step=post_processing" />
+    <option name="PARAMETERS" value="--episode-config-path=episode_configs/episode_1.yaml --output-path=output --step=post_processing" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
