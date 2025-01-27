@@ -7,7 +7,7 @@ import logging
 
 from talking_agents.graph import INode
 from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.graph.common.languages import get_language_name
+from talking_agents.common.languages import get_language_name
 from talking_agents.graph.common.interview_content import Message, InterviewRoles
 from talking_agents.graph.common.setup import PodcastSetup
 from talking_agents.graph.common.prompt import load_prompt

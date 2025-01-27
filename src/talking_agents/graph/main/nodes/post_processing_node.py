@@ -4,7 +4,7 @@ import logging
 from talking_agents.graph import INode
 from talking_agents.graph.main.state import State
 from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.graph.common.languages import get_language_name
+from talking_agents.common.languages import get_language_name
 
 log = logging.getLogger(__name__)
 

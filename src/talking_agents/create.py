@@ -14,8 +14,7 @@ from talking_agents.settings import Settings
 from talking_agents.common import VectorStore
 from talking_agents.common.few_shot_examples import FewShotExamples
 from talking_agents.common.azure_speech_engine import create_azure_speech_engine
-from talking_agents.common import VoiceConfig
-from talking_agents.graph.common.languages import Languages
+from talking_agents.common import VoiceConfig, Languages
 from talking_agents.document.section import Section, TextSection, ImageSection
 from talking_agents.graph.common.setup import Persona, PodcastSetup
 from talking_agents.graph.main import Graph, State, PodcastContent
@@ -224,6 +223,8 @@ async def create(
         ),
     )
 
+    persona_host = Persona.from_file(Path(r"D:\Projects\Python\projects\talking_agents\episode_configs\personas\host_frank.yaml"))
+    persona_guest = Persona.from_file(Path(r"D:\Projects\Python\projects\talking_agents\episode_configs\personas\guest_sandra.yaml"))
     setup = PodcastSetup(
         max_state=max_state,
         date=datetime.now(tz=timezone("Europe/Berlin")),
@@ -232,52 +233,8 @@ async def create(
         document_path=PurePosixPath(input_path.as_posix()),
         paper_url="https://arxiv.org/abs/1706.03762",
         output_path=output_path,
-        moderator=Persona(
-            name="Frank",
-            role_description=(
-                "You are the moderator of a podcast with the name "
-                "'Talking Agents'. In this podcast, papers are discussed and presented to the "
-                "audience in a way, that they understand the underlying concepts without reading the "
-                "whole paper or struggling with complicated math."
-            ),
-            additional_information=[
-                "He is a previous AI researcher from the Munich University of Applied Sciences",
-                "He is a passionate podcaster and loves to talk about AI and Machine Learning",
-            ],
-            private_additional_information=[
-                "He is excited about Machine Learning, but mostly he appears to be professional.",
-            ],
-            voice={
-                Languages.ENGLISH: VoiceConfig(
-                    ssml='<voice name="en-US-AndrewNeural"><break time=\"250ms\" />{text}</voice>'
-                )
-            }
-        ),
-        guest=Persona(
-            name="Sandra",
-            role_description=(
-                "You are a guest in the podcast 'Talking Agents'. In this podcast, papers "
-                "are discussed and presented to the audience in a way, that they understand the underlying "
-                "concepts without reading the whole paper or struggling with complicated math."
-            ),
-            additional_information=[
-                "Institution: An AI Research Lab in Munich",
-                "Position: AI Agent and Machine Learning Researcher",
-#                "One of Franks favorite podcast guests",
-            ],
-            private_additional_information=[
-                ("Likes to do a joke about AIs does not have feeling, when getting asked 'how are you?' "
-                 "But **ONLY**, when she is getting asked!"),
-                "She is excited about the topic.",
-                ("When she get asked about the influence of transformer architectures, she likes to highlight in a "
-                 "humorous way that she is an agentic AI, which also based on the transformer architecture."),
-            ],
-            voice={
-                Languages.ENGLISH: VoiceConfig(
-                    ssml='<voice name="en-US-LunaNeural"><break time=\"250ms\" />{text}</voice>'
-                )
-            }
-        ),
+        moderator=persona_host,
+        guest=persona_guest,
         languages=[Languages.ENGLISH]
     )
     result = await graph.run(

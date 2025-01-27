@@ -3,7 +3,7 @@ from pathlib import Path, PurePosixPath
 from typeguard import typechecked
 
 from talking_agents.common.textwrap import textwrap
-from talking_agents.graph.common.languages import Languages, get_language_name
+from talking_agents.common.languages import Languages, get_language_name
 from talking_agents.graph.common.interview_content import Message
 
 
@@ -39,6 +39,7 @@ class PostProcessingContentVariant(BaseModel):
             file.write(self.model_dump_json(indent=4))
 
     @classmethod
+    @typechecked()
     def load(cls, input_path: Path, episode_number: int, language: Languages) -> "PostProcessingContentVariant":
         content_path = input_path / f"episode_{episode_number}"
         try:
@@ -98,6 +99,7 @@ class PostProcessingContent(BaseModel):
             variant.store(output_path, episode_number)
 
     @classmethod
+    @typechecked()
     def load(cls, input_path: Path, episode_number: int, languages: list[Languages]) -> "PostProcessingContent":
         variants = {}
         for language in languages:
