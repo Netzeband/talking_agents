@@ -8,13 +8,12 @@ from talking_agents.document.section import Section
 
 
 class PodcastSetup(BaseModel):
+    document_path: Path | None = None
     max_state: str
     date: datetime
     paper_url: str
     episode_number: int
     output_path: Path
-    document_path: PurePosixPath
-    document: list[Section]
     moderator: Persona
     guest: Persona
     languages: list[Languages]

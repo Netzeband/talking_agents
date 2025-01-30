@@ -22,7 +22,7 @@ from talking_agents.graph.main.nodes import PrepareNode, InterviewNode, PostProc
 from talking_agents.graph.prepare.prepare_graph import PrepareGraph
 from talking_agents.graph.prepare.nodes import (
     CreateTitleNode, CreateImageDescriptionsNode, CreateVectorStore, CreateIntroductionNode, CreateWrapUpNode,
-    CreateTopicsNode, PrepareQuestionsNode
+    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode
 )
 from talking_agents.graph.prepare_question.prepare_question_graph import PrepareQuestionGraph
 from talking_agents.graph.interview.interview_graph import InterviewGraph
@@ -70,6 +70,7 @@ async def create(
     )
     prepare_graph = PrepareGraph(
         vector_store=vector_store,
+        download_paper_node=DownloadPaperNode(),
         create_title_node=CreateTitleNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
         ),
@@ -225,8 +226,7 @@ async def create(
         max_state=max_state,
         date=datetime.now(tz=tzlocal()),
         episode_number=episode_config.episode_number,
-        document=_prepare_input(episode_config.document_path),
-        document_path=PurePosixPath(episode_config.document_path.as_posix()),
+        document_path=episode_config.document_path,
         paper_url=str(episode_config.paper_url),
         output_path=output_path,
         moderator=episode_config.moderator_persona,
@@ -246,11 +246,6 @@ async def create(
 
     print(" *** Finished Creating a Podcast ***")
     print(str(result.content))
-
-
-def _prepare_input(input_path: Path) -> list[Section]:
-    with open(input_path, "r", encoding="utf-8") as file:
-        return get_document_sections(file.read())
 
 
 IMAGE_SECTION_PATTERN = re.compile(r"!\[[^]]*]\(([^)]*)\)")

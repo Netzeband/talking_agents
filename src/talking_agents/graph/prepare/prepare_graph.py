@@ -16,6 +16,7 @@ class PrepareGraph(INode[PrepareState]):
     def __init__(
             self,
             vector_store: VectorStore,
+            download_paper_node: INode[PrepareState],
             create_title_node: INode[PrepareState],
             create_image_descriptions_node: INode[PrepareState],
             create_vector_store_node: INode[PrepareState],
@@ -27,6 +28,7 @@ class PrepareGraph(INode[PrepareState]):
         self._vector_store = vector_store
 
         graph_builder = StateGraph(PrepareState)
+        graph_builder.add_node(Nodes.DOWNLOAD_PAPER, download_paper_node.run)
         graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
         graph_builder.add_node(Nodes.CREATE_IMAGE_DESCRIPTIONS, create_image_descriptions_node.run)
         graph_builder.add_node(Nodes.CREATE_VECTOR_STORE, create_vector_store_node.run)
@@ -36,6 +38,7 @@ class PrepareGraph(INode[PrepareState]):
         graph_builder.add_node(Nodes.CREATE_WRAP_UP, create_wrapup_node.run)
 
         graph_builder.add_conditional_edges(START, self._transition)
+        graph_builder.add_conditional_edges(Nodes.DOWNLOAD_PAPER, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_IMAGE_DESCRIPTIONS, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_VECTOR_STORE, self._transition)
@@ -58,6 +61,10 @@ class PrepareGraph(INode[PrepareState]):
             output_path=state.setup.output_path,
             episode_number=state.setup.episode_number,
         )
+
+        if state.content.input_file is None:
+            log.info(" => Input file does not exist so far ...")
+            return Nodes.DOWNLOAD_PAPER
 
         if state.content.title is None:
             log.info(" => Title not created ...")

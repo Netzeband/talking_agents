@@ -36,6 +36,7 @@ class Question(BaseModel):
 
 
 class PreparationContent(BaseModel):
+    input_file: Path | None = None
     date: datetime | None = None
     title: str | None = None
     introduction: str | None = None
