@@ -1,3 +1,5 @@
+import sys
+
 from langgraph.graph import StateGraph, START, END
 from typeguard import typechecked
 import logging
@@ -79,14 +81,14 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Document is not extracted ...")
             return Nodes.EXTRACT_DOCUMENT
 
+        if state.content.image_descriptions is None:
+            log.info(" => Image descriptions not created ...")
+            return Nodes.CREATE_IMAGE_DESCRIPTIONS
+
         # ToDo: have table and image description before
         if state.content.title is None:
             log.info(" => Title not created ...")
             return Nodes.CREATE_TITLE
-
-        if state.content.image_descriptions is None:
-            log.info(" => Image descriptions not created ...")
-            return Nodes.CREATE_IMAGE_DESCRIPTIONS
 
         # ToDo: Rework of vector store entries
         if (state.content.vector_store_entries is None or

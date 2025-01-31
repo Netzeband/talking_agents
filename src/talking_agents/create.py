@@ -17,7 +17,6 @@ from talking_agents.common.document_store import DocumentStore
 from talking_agents.common.few_shot_examples import FewShotExamples
 from talking_agents.common.azure_speech_engine import create_azure_speech_engine
 from talking_agents.common import EpisodeConfig
-from talking_agents.document.section import Section, TextSection, ImageSection
 from talking_agents.graph.common.setup import PodcastSetup
 from talking_agents.graph.main import Graph, State, PodcastContent
 from talking_agents.graph.main.nodes import PrepareNode, InterviewNode, PostProcessingNode
@@ -87,6 +86,7 @@ async def create(
         ),
         create_image_descriptions_node=CreateImageDescriptionsNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+            document_store=document_store,
         ),
         create_vector_store_node=CreateVectorStore(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
@@ -267,33 +267,6 @@ def get_image_path(text: str) -> PurePosixPath:
         raise ValueError(f"Text '{text}' does not match the image pattern")
     return PurePosixPath(match.group(1))
 
-def get_document_sections(document: str) -> list[Section]:
-    matches = re.finditer(IMAGE_SECTION_PATTERN, document)
-    sections = []
-    last_start = 0
-    for match in matches:
-        start, end = match.span()
-
-        section_text = document[last_start:start]
-        if section_text != "":
-            sections.append(TextSection(text=section_text))
-
-        section_text = document[start:end]
-        if section_text != "":
-            sections.append(
-                ImageSection(
-                    text=section_text,
-                    path=get_image_path(section_text),
-                )
-            )
-
-        last_start = end
-
-    section_text = document[last_start:]
-    if section_text != "":
-        sections.append(TextSection(text=section_text))
-
-    return sections
 
 def get_mixer_settings(mixer_settings_path: Path) -> MixerSettings:
     with mixer_settings_path.open("r") as f:

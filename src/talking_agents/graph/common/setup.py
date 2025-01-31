@@ -3,8 +3,6 @@ from pathlib import PurePosixPath, Path
 from datetime import datetime
 
 from talking_agents.common import Persona, Languages
-from talking_agents.document.section import Section
-
 
 
 class PodcastSetup(BaseModel):
