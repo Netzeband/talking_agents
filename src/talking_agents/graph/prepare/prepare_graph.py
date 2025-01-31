@@ -7,6 +7,7 @@ from talking_agents.graph.prepare.nodes import Nodes
 from talking_agents.graph.prepare.prepare_state import PrepareState
 from talking_agents.graph import INode
 from talking_agents.common.vector_store import VectorStore
+from talking_agents.common.document_store import DocumentStore
 
 log = logging.getLogger(__name__)
 
@@ -16,7 +17,9 @@ class PrepareGraph(INode[PrepareState]):
     def __init__(
             self,
             vector_store: VectorStore,
+            document_store: DocumentStore,
             download_paper_node: INode[PrepareState],
+            extract_document_node: INode[PrepareState],
             create_title_node: INode[PrepareState],
             create_image_descriptions_node: INode[PrepareState],
             create_vector_store_node: INode[PrepareState],
@@ -26,9 +29,11 @@ class PrepareGraph(INode[PrepareState]):
             create_wrapup_node: INode[PrepareState],
     ):
         self._vector_store = vector_store
+        self._document_store = document_store
 
         graph_builder = StateGraph(PrepareState)
         graph_builder.add_node(Nodes.DOWNLOAD_PAPER, download_paper_node.run)
+        graph_builder.add_node(Nodes.EXTRACT_DOCUMENT, extract_document_node.run)
         graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
         graph_builder.add_node(Nodes.CREATE_IMAGE_DESCRIPTIONS, create_image_descriptions_node.run)
         graph_builder.add_node(Nodes.CREATE_VECTOR_STORE, create_vector_store_node.run)
@@ -39,8 +44,9 @@ class PrepareGraph(INode[PrepareState]):
 
         graph_builder.add_conditional_edges(START, self._transition)
         graph_builder.add_conditional_edges(Nodes.DOWNLOAD_PAPER, self._transition)
-        graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.EXTRACT_DOCUMENT, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_IMAGE_DESCRIPTIONS, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_VECTOR_STORE, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_INTRODUCTION, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_TOPICS, self._transition)
@@ -66,6 +72,14 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Input file does not exist so far ...")
             return Nodes.DOWNLOAD_PAPER
 
+        if ((state.content.extracted_document_file is None) or
+                (not state.content.extracted_document_file.exists()) or
+                (not self._document_store.is_loaded)
+        ):
+            log.info(" => Document is not extracted ...")
+            return Nodes.EXTRACT_DOCUMENT
+
+        # ToDo: have table and image description before
         if state.content.title is None:
             log.info(" => Title not created ...")
             return Nodes.CREATE_TITLE
@@ -74,6 +88,7 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Image descriptions not created ...")
             return Nodes.CREATE_IMAGE_DESCRIPTIONS
 
+        # ToDo: Rework of vector store entries
         if (state.content.vector_store_entries is None or
             not self._vector_store.is_ready() or
             state.content.vector_store_entries != self._vector_store.get_number_of_entries()
@@ -82,6 +97,7 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
 
+        # ToDo: have summary generation before
         if state.content.introduction is None:
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION

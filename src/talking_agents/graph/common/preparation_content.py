@@ -38,6 +38,7 @@ class Question(BaseModel):
 class PreparationContent(BaseModel):
     input_file: Path | None = None
     date: datetime | None = None
+    extracted_document_file: Path | None = None
     title: str | None = None
     introduction: str | None = None
     questions: list[Question] | None = None

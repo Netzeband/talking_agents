@@ -3,6 +3,7 @@ from enum import StrEnum, auto
 
 class Nodes(StrEnum):
     DOWNLOAD_PAPER = auto()
+    EXTRACT_DOCUMENT = auto()
     CREATE_TITLE = auto()
     CREATE_INTRODUCTION = auto()
     PREPARE_QUESTIONS = auto()

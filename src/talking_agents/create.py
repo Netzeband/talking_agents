@@ -9,20 +9,22 @@ from langgraph.prebuilt import ToolNode
 from langchain_openai import OpenAIEmbeddings
 from datetime import timedelta
 from dateutil.tz import tzlocal
+import unstructured_client
 
 from talking_agents.settings import Settings
 from talking_agents.common import VectorStore
+from talking_agents.common.document_store import DocumentStore
 from talking_agents.common.few_shot_examples import FewShotExamples
 from talking_agents.common.azure_speech_engine import create_azure_speech_engine
 from talking_agents.common import EpisodeConfig
 from talking_agents.document.section import Section, TextSection, ImageSection
-from talking_agents.graph.common.setup import Persona, PodcastSetup
+from talking_agents.graph.common.setup import PodcastSetup
 from talking_agents.graph.main import Graph, State, PodcastContent
 from talking_agents.graph.main.nodes import PrepareNode, InterviewNode, PostProcessingNode
 from talking_agents.graph.prepare.prepare_graph import PrepareGraph
 from talking_agents.graph.prepare.nodes import (
     CreateTitleNode, CreateImageDescriptionsNode, CreateVectorStore, CreateIntroductionNode, CreateWrapUpNode,
-    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode
+    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode
 )
 from talking_agents.graph.prepare_question.prepare_question_graph import PrepareQuestionGraph
 from talking_agents.graph.interview.interview_graph import InterviewGraph
@@ -55,6 +57,7 @@ async def create(
 ):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
     vector_store = VectorStore(embeddings)
+    document_store = DocumentStore()
     paper_tools = [
         TavilySearchResults(max_results=2),
         vector_store.get_retrieval_tool(),
@@ -70,7 +73,15 @@ async def create(
     )
     prepare_graph = PrepareGraph(
         vector_store=vector_store,
+        document_store=document_store,
         download_paper_node=DownloadPaperNode(),
+        extract_document_node=ExtractDocumentNode(
+            unstructured_client=unstructured_client.UnstructuredClient(
+                api_key_auth=settings.unstructured_api_key,
+                server_url=settings.unstructured_api_url,
+            ),
+            document_store=document_store,
+        ),
         create_title_node=CreateTitleNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
         ),

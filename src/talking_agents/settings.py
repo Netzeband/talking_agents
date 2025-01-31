@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     langchain_endpoint: AnyUrl | None = None
     langchain_api_key: SecretStr | None = None
     langchain_project: str | None = None
+    unstructured_api_key: str
+    unstructured_api_url: str
     speech_key: SecretStr
     speech_region: str
     openai_api_key: SecretStr

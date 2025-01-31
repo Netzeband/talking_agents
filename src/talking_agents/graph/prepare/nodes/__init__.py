@@ -7,3 +7,4 @@ from .prepare_questions_node import PrepareQuestionsNode
 from .create_topics_node import CreateTopicsNode
 from .create_wrapup_node import CreateWrapUpNode
 from .download_paper_node import DownloadPaperNode
+from .extract_document_node import ExtractDocumentNode
