@@ -22,8 +22,9 @@ class PrepareGraph(INode[PrepareState]):
             document_store: DocumentStore,
             download_paper_node: INode[PrepareState],
             extract_document_node: INode[PrepareState],
-            create_title_node: INode[PrepareState],
             create_image_descriptions_node: INode[PrepareState],
+            create_table_descriptions_node: INode[PrepareState],
+            create_title_node: INode[PrepareState],
             create_vector_store_node: INode[PrepareState],
             create_introduction_node: INode[PrepareState],
             create_topics_node: INode[PrepareState],
@@ -36,9 +37,10 @@ class PrepareGraph(INode[PrepareState]):
         graph_builder = StateGraph(PrepareState)
         graph_builder.add_node(Nodes.DOWNLOAD_PAPER, download_paper_node.run)
         graph_builder.add_node(Nodes.EXTRACT_DOCUMENT, extract_document_node.run)
-        graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
         graph_builder.add_node(Nodes.CREATE_IMAGE_DESCRIPTIONS, create_image_descriptions_node.run)
+        graph_builder.add_node(Nodes.CREATE_TABLE_DESCRIPTIONS, create_table_descriptions_node.run)
         graph_builder.add_node(Nodes.CREATE_VECTOR_STORE, create_vector_store_node.run)
+        graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
         graph_builder.add_node(Nodes.CREATE_INTRODUCTION, create_introduction_node.run)
         graph_builder.add_node(Nodes.CREATE_TOPICS, create_topics_node.run)
         graph_builder.add_node(Nodes.PREPARE_QUESTIONS, prepare_questions_node.run)
@@ -48,8 +50,9 @@ class PrepareGraph(INode[PrepareState]):
         graph_builder.add_conditional_edges(Nodes.DOWNLOAD_PAPER, self._transition)
         graph_builder.add_conditional_edges(Nodes.EXTRACT_DOCUMENT, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_IMAGE_DESCRIPTIONS, self._transition)
-        graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_TABLE_DESCRIPTIONS, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_VECTOR_STORE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_INTRODUCTION, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_TOPICS, self._transition)
         graph_builder.add_conditional_edges(Nodes.PREPARE_QUESTIONS, self._transition)
@@ -85,19 +88,25 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Image descriptions not created ...")
             return Nodes.CREATE_IMAGE_DESCRIPTIONS
 
-        # ToDo: have table and image description before
-        if state.content.title is None:
-            log.info(" => Title not created ...")
-            return Nodes.CREATE_TITLE
+        if state.content.table_descriptions is None:
+            log.info(" => Table descriptions not created ...")
+            return Nodes.CREATE_TABLE_DESCRIPTIONS
 
         # ToDo: Rework of vector store entries
         if (state.content.vector_store_entries is None or
             not self._vector_store.is_ready() or
             state.content.vector_store_entries != self._vector_store.get_number_of_entries()
         ):
+            sys.exit(-1)
             assert state.content.image_descriptions is not None
+            assert state.content.table_descriptions is not None
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
+
+        # ToDo: have table and image description before
+        if state.content.title is None:
+            log.info(" => Title not created ...")
+            return Nodes.CREATE_TITLE
 
         # ToDo: have summary generation before
         if state.content.introduction is None:

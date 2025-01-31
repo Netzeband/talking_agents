@@ -5,13 +5,13 @@ from langchain_core.messages import HumanMessage
 from typeguard import typechecked
 from typing import Any
 import logging
-import base64
-from unstructured.documents.elements import Image, Element, NarrativeText
+from unstructured.documents.elements import Image, Element
 
 from talking_agents.graph.common.prompt import load_prompt
 from talking_agents.graph import INode
 from talking_agents.graph.prepare.prepare_state import PrepareState
 from talking_agents.common.document_store import DocumentStore
+from talking_agents.graph.prepare.common import get_surrounding_document_elements
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class CreateImageDescriptionsNode(INode[PrepareState]):
         image_descriptions = {}
         for i, element in enumerate(document_elements):
             if isinstance(element, Image):
-                image_descriptions[element.id] = await self._run_singe_image(document_elements, i)
+                image_descriptions[element.id] = await self._run_single_image(document_elements, i)
                 log.info(
                     "Image description for '%s': %s",
                     element.id,
@@ -49,7 +49,7 @@ class CreateImageDescriptionsNode(INode[PrepareState]):
         return state
 
     @typechecked()
-    async def _run_singe_image(self, document: list[Element], image_index: int) -> str:
+    async def _run_single_image(self, document: list[Element], image_index: int) -> str:
         prompt = ChatPromptTemplate([
             ("system", "{system_prompt}"),
             MessagesPlaceholder("document"),
@@ -79,9 +79,12 @@ class CreateImageDescriptionsNode(INode[PrepareState]):
             image_index: int,
             text_length: int
     ) -> list[dict[str, Any]]:
-        elements_before = self._limit_reverse_section_text(document[:image_index], text_length)
-        elements_after = self._limit_section_text(document[image_index:], text_length)
-        image_element = document[image_index]
+        elements_before, image_element, elements_after = get_surrounding_document_elements(
+            document,
+            image_index,
+            text_length,
+        )
+        assert isinstance(image_element, Image)
         elements_to_consider = elements_before + [image_element] + elements_after
 
         output = []
@@ -94,50 +97,6 @@ class CreateImageDescriptionsNode(INode[PrepareState]):
             else:
                 output.append({"type": "text", "text": element.text})
         return output
-
-    @staticmethod
-    @typechecked()
-    def _limit_section_text(elements: list[Element], text_length: int) -> list[Element]:
-        text = ""
-        output_elements = []
-        for element in elements:
-            if len(text) + len(element.text) <= text_length:
-                text += element.text
-                output_elements.append(element)
-
-            else:
-                remaining_length = text_length - len(text)
-                remaining_section_text = element.text[:remaining_length] + "..."
-                output_elements.append(NarrativeText(
-                    text=remaining_section_text,
-                    element_id=element.id,
-                    metadata=element.metadata,
-                ))
-                break
-
-        return output_elements
-
-    @staticmethod
-    @typechecked()
-    def _limit_reverse_section_text(elements: list[Element], text_length: int) -> list[Element]:
-        text = ""
-        output_elements: list[Element] = []
-        for element in reversed(elements):
-            if len(text) + len(element.text) <= text_length:
-                text += element.text
-                output_elements.append(element)
-
-            else:
-                remaining_length = text_length - len(text)
-                remaining_section_text = "..." + element.text[-remaining_length:]
-                output_elements.append(NarrativeText(
-                    text=remaining_section_text,
-                    element_id=element.id,
-                    metadata=element.metadata,
-                ))
-                break
-
-        return list(reversed(output_elements))
 
     @staticmethod
     @typechecked()

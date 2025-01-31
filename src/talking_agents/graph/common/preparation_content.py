@@ -47,6 +47,7 @@ class PreparationContent(BaseModel):
     skipped_topics: list[str] = Field(default_factory=list)
     wrapup: str | None = None
     image_descriptions: dict[str, str] | None = None
+    table_descriptions: dict[str, str] | None = None
     vector_store_entries: int | None = None
 
     def store(self, output_path: Path, episode_number: int):
