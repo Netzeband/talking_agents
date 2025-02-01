@@ -40,6 +40,7 @@ class PreparationContent(BaseModel):
     date: datetime | None = None
     extracted_document_file: Path | None = None
     title: str | None = None
+    summary: str | None = None
     introduction: str | None = None
     questions: list[Question] | None = None
     topics: list[str] | None = None
@@ -71,7 +72,9 @@ class PreparationContent(BaseModel):
         content_string = ""
         content_string += f"* Podcast Date: {self.date.strftime("%A the %B %d, %Y")}\n"
         content_string += f"* Paper Tile: {self.title}\n"
-        content_string += f"* Image Descriptions: {self._get_image_descriptions(self.image_descriptions)}\n"
+        content_string += f"* Paper Summary: {self._wrap_long_text(self.summary)}\n"
+        content_string += f"* Image Descriptions: {self._get_descriptions(self.image_descriptions)}\n"
+        content_string += f"* Table Descriptions: {self._get_descriptions(self.table_descriptions)}\n"
         content_string += f"* Vector Store Entries: {self.vector_store_entries}\n"
         content_string += f"* Introduction: {self._wrap_long_text(self.introduction)}\n"
         content_string += f"* Topics: {self._get_topics(self.topics)}\n"
@@ -79,7 +82,7 @@ class PreparationContent(BaseModel):
         content_string += f"* Wrapup: {self._wrap_long_text(self.wrapup)}\n"
         return content_string
 
-    def _get_image_descriptions(self, descriptions: dict[str, str] | None) -> str:
+    def _get_descriptions(self, descriptions: dict[str, str] | None) -> str:
         if descriptions is None:
             return "None"
         return str(len(descriptions.keys()))

@@ -1,0 +1,18 @@
+Please create a summary of the given research paper. The summary should highlight the different topics
+handled by the paper with a small summary of every topic. You will get the text part by part with the
+summary, you already have written. Extend your already written summary by adding new content to existing
+topics or by adding new topics to it.
+
+{% if old_summary|length > 0 %}
+This is the already existing summary:
+<old_summary>
+{{old_summary}}
+</old_summary>
+{% endif %}
+
+This is the new text piece:
+<new_context>
+{{new_context}}
+</new_context>
+
+Create a new summary, which combines all information and topics from the old summary but also from the new text piece.

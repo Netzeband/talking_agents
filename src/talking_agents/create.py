@@ -22,7 +22,8 @@ from talking_agents.graph.main.nodes import PrepareNode, InterviewNode, PostProc
 from talking_agents.graph.prepare.prepare_graph import PrepareGraph
 from talking_agents.graph.prepare.nodes import (
     CreateTitleNode, CreateImageDescriptionsNode, CreateVectorStore, CreateIntroductionNode, CreateWrapUpNode,
-    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode, CreateTableDescriptionsNode
+    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode, CreateTableDescriptionsNode,
+    CreateSummaryNode
 )
 from talking_agents.graph.prepare_question.prepare_question_graph import PrepareQuestionGraph
 from talking_agents.graph.interview.interview_graph import InterviewGraph
@@ -94,6 +95,10 @@ async def create(
             document_store=document_store,
         ),
         create_title_node=CreateTitleNode(
+            llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+            vector_store=vector_store,
+        ),
+        create_summary_node=CreateSummaryNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
             vector_store=vector_store,
         ),
