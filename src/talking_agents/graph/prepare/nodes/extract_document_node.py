@@ -37,7 +37,7 @@ class ExtractDocumentNode(INode[PrepareState]):
             self._document_store.load_from_dict(elements)
             state.content.extracted_document_file = cache_file
 
-        assert self._document_store.is_loaded
+        assert self._document_store.is_ready()
         log.info(f" * Document contains {len(self._document_store.get_elements())} elements")
         return state
 

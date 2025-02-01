@@ -9,12 +9,6 @@ from langchain_core.tools import RetrieverInput, Tool
 from langchain.tools.retriever import create_retriever_tool
 import faiss
 import json
-from pydantic import BaseModel
-
-
-class Chunk(BaseModel):
-    document: Document
-    summary: str
 
 
 class VectorStore:
@@ -23,7 +17,7 @@ class VectorStore:
         self._embeddings = embeddings
         self._vector_store: FAISS | None = None
         self._retriever_tool: BaseTool | None = None
-        self._summaries: dict[str, str] = {}
+        self._text_content: dict[str, str] = {}
 
     @typechecked()
     def is_ready(self) -> bool:
@@ -36,11 +30,11 @@ class VectorStore:
             self._embeddings,
             allow_dangerous_deserialization=True,
         )
-        with open(path / "summaries.json", "r") as f:
-            self._summaries = json.load(f)
+        with open(path / "text_content.json", "r") as f:
+            self._text_content = json.load(f)
 
     @typechecked()
-    def create_from_documents(self, chunks: dict[str, Chunk]):
+    def create_from_documents(self, chunks: dict[str, Document]):
         self._vector_store = FAISS(
             embedding_function=self._embeddings,
             index=faiss.IndexFlatL2(len(self._embeddings.embed_query("hello world"))),
@@ -48,10 +42,10 @@ class VectorStore:
             index_to_docstore_id={},
         )
         self._vector_store.add_documents(
-            documents=list([c.document for c in chunks.values()]),
+            documents=list([c for c in chunks.values()]),
             ids=list(chunks.keys())
         )
-        self._summaries = {k: v.summary for k, v in chunks.items()}
+        self._text_content = {k: v.page_content for k, v in chunks.items()}
 
     @typechecked()
     def save(self, path: Path):
@@ -60,8 +54,8 @@ class VectorStore:
                 "No vector store created now. Either load a vector store or create a new one from documents."
             )
         self._vector_store.save_local(str(path / "faiss"))
-        with open(path / "summaries.json", "w") as f:
-            json.dump(self._summaries, f, indent=4)
+        with open(path / "text_content.json", "w") as f:
+            json.dump(self._text_content, f, indent=4)
 
     @typechecked()
     def get_number_of_entries(self) -> int:
@@ -69,12 +63,12 @@ class VectorStore:
             raise Exception(
                 "No vector store created now. Either load a vector store or create a new one from documents."
             )
-        assert self._vector_store.index.ntotal == len(self._summaries)
+        assert self._vector_store.index.ntotal == len(self._text_content)
         return self._vector_store.index.ntotal
 
     @typechecked()
-    def get_summaries(self) -> dict[str, str]:
-        return self._summaries
+    def get_text_content(self) -> dict[str, str]:
+        return self._text_content
 
     @typechecked()
     def get_retrieval_tool(self) -> BaseTool:

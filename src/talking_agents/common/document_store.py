@@ -19,14 +19,13 @@ class DocumentStore:
     def load_from_dict(self, elements_dicts: list[dict[str, Any]]):
         self._elements = elements_from_dicts(elements_dicts)
 
-    @property
     @typechecked()
-    def is_loaded(self) -> bool:
+    def is_ready(self) -> bool:
         return self._elements is not None
 
     @typechecked()
     def get_elements(self) -> list[Element]:
-        assert self.is_loaded
+        assert self.is_ready()
         return self._elements
 
     @typechecked()

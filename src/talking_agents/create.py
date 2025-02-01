@@ -3,7 +3,6 @@ import yaml
 from pathlib import Path, PurePosixPath
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain_experimental.text_splitter import SemanticChunker
 from datetime import datetime
 from langgraph.prebuilt import ToolNode
 from langchain_openai import OpenAIEmbeddings
@@ -92,7 +91,7 @@ async def create(
         create_vector_store_node=CreateVectorStore(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
             vector_store=vector_store,
-            text_splitter=SemanticChunker(embeddings),
+            document_store=document_store,
         ),
         create_title_node=CreateTitleNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),

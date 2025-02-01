@@ -79,7 +79,7 @@ class PrepareGraph(INode[PrepareState]):
 
         if ((state.content.extracted_document_file is None) or
                 (not state.content.extracted_document_file.exists()) or
-                (not self._document_store.is_loaded)
+                (not self._document_store.is_ready())
         ):
             log.info(" => Document is not extracted ...")
             return Nodes.EXTRACT_DOCUMENT
@@ -97,14 +97,14 @@ class PrepareGraph(INode[PrepareState]):
             not self._vector_store.is_ready() or
             state.content.vector_store_entries != self._vector_store.get_number_of_entries()
         ):
-            sys.exit(-1)
             assert state.content.image_descriptions is not None
             assert state.content.table_descriptions is not None
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
 
-        # ToDo: have table and image description before
+        # ToDo: Adapt title generation
         if state.content.title is None:
+            sys.exit(-1)
             log.info(" => Title not created ...")
             return Nodes.CREATE_TITLE
 
@@ -113,6 +113,7 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION
 
+        # ToDo: Adapt topic generation
         if state.content.topics is None:
             log.info(" => Topics not created ...")
             return Nodes.CREATE_TOPICS
