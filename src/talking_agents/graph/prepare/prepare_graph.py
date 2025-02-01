@@ -112,16 +112,14 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Summary not created ...")
             return Nodes.CREATE_SUMMARY
 
-        # ToDo: have summary generation before
+        if state.content.topics is None:
+            log.info(" => Topics not created ...")
+            return Nodes.CREATE_TOPICS
+
         if state.content.introduction is None:
             sys.exit(-1)
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION
-
-        # ToDo: Adapt topic generation
-        if state.content.topics is None:
-            log.info(" => Topics not created ...")
-            return Nodes.CREATE_TOPICS
 
         if (state.content.questions is None or
                 not self._is_every_topic_already_handled(

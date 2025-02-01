@@ -35,6 +35,12 @@ class Question(BaseModel):
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
+class Topic(BaseModel):
+    description: str
+    answer_expectation: str
+    reasoning: str
+
+
 class PreparationContent(BaseModel):
     input_file: Path | None = None
     date: datetime | None = None
@@ -43,7 +49,7 @@ class PreparationContent(BaseModel):
     summary: str | None = None
     introduction: str | None = None
     questions: list[Question] | None = None
-    topics: list[str] | None = None
+    topics: list[Topic] | None = None
     # noinspection PyDataclass
     skipped_topics: list[str] = Field(default_factory=list)
     wrapup: str | None = None
@@ -87,10 +93,10 @@ class PreparationContent(BaseModel):
             return "None"
         return str(len(descriptions.keys()))
 
-    def _get_topics(self, topics: list[str] | None) -> str:
+    def _get_topics(self, topics: list[Topic] | None) -> str:
         if topics is None:
             return "None\n"
-        topics_string = "\n" + "".join([f"    {i+1}. {q}\n" for i, q in enumerate(topics)])
+        topics_string = "\n" + "".join([f"    {i+1}. {t.description}\n" for i, t in enumerate(topics)])
         return topics_string
 
     def _get_questions(self, questions: list[Question] | None) -> str:
