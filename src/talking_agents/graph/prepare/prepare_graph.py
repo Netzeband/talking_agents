@@ -92,7 +92,6 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Table descriptions not created ...")
             return Nodes.CREATE_TABLE_DESCRIPTIONS
 
-        # ToDo: Rework of vector store entries
         if (state.content.vector_store_entries is None or
             not self._vector_store.is_ready() or
             state.content.vector_store_entries != self._vector_store.get_number_of_entries()
@@ -102,14 +101,13 @@ class PrepareGraph(INode[PrepareState]):
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
 
-        # ToDo: Adapt title generation
         if state.content.title is None:
-            sys.exit(-1)
             log.info(" => Title not created ...")
             return Nodes.CREATE_TITLE
 
         # ToDo: have summary generation before
         if state.content.introduction is None:
+            sys.exit(-1)
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION
 

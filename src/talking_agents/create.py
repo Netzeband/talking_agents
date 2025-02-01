@@ -95,6 +95,7 @@ async def create(
         ),
         create_title_node=CreateTitleNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+            vector_store=vector_store,
         ),
         create_introduction_node=CreateIntroductionNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=1.0),
