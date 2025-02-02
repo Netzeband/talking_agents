@@ -106,7 +106,7 @@ async def create(
             llm=ChatOpenAI(model="gpt-4o", temperature=1.0),
         ),
         create_topics_node=CreateTopicsNode(
-            llm=ChatOpenAI(model="gpt-4o", temperature=0.25),
+            llm=ChatOpenAI(model="o1"),
         ),
         prepare_questions_node=PrepareQuestionsNode(
             prepare_question_graph=PrepareQuestionGraph(
@@ -118,7 +118,6 @@ async def create(
                     answer_question_graph=AnswerQuestionGraph(
                         question_rephrase_node=QuestionRephraseNode(
                             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
-                            vector_store=vector_store,
                             rephrase_examples=FewShotExamples(
                                 settings.few_shot_example_path,
                                 "question_rephrase_examples",

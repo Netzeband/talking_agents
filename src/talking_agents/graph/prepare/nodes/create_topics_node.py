@@ -49,7 +49,6 @@ class CreateTopicsNode(INode[PrepareState]):
         log.info("** PREPARE: CREATE TOPICS **")
         prompt = ChatPromptTemplate([
             ("system", "{system_prompt}"),
-            MessagesPlaceholder("document")
         ])
         model = prompt | self._llm.with_structured_output(CreateTopicsNodeOutput)
         response = await model.ainvoke({
@@ -57,11 +56,9 @@ class CreateTopicsNode(INode[PrepareState]):
                 {
                     "role_description": state.setup.moderator.get_role_description(),
                     "paper_title": state.content.title,
+                    "summary": state.content.summary,
                 }
             ),
-            "document": [
-                HumanMessage(content=state.content.summary)
-            ]
         })
 
         topics = []

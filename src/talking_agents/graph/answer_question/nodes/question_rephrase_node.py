@@ -22,11 +22,9 @@ class QuestionRephraseNode(INode[AnswerQuestionState]):
     def __init__(
             self,
             llm: BaseChatModel,
-            vector_store: VectorStore,
             rephrase_examples: FewShotExamples,
     ):
         self._llm = llm
-        self._vector_store = vector_store
         self._rephrase_examples = rephrase_examples
 
     @typechecked()
@@ -40,7 +38,7 @@ class QuestionRephraseNode(INode[AnswerQuestionState]):
             "system_prompt": load_prompt("answer_question", "question_rephrase").render({
                 "role_description": state.setup.guest.get_role_description(),
                 "moderator_name": state.setup.moderator.name,
-                "summaries": "\n".join([f" * {s}" for s in self._vector_store.get_summaries().values()]),
+                "summary": state.preparation.summary,
                 "question": state.original_question,
                 "examples": "\n".join(
                     [f" * {example['example']}" for example
