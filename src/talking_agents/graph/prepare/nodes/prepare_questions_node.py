@@ -25,7 +25,13 @@ class PrepareQuestionsNode(INode[PrepareState]):
             state.content.questions = []
 
         for i, topic in enumerate(state.content.topics):
-            new_questions = await self._prepare_question_for_topic(state, i, topic.description, state.content.questions)
+            new_questions = await self._prepare_question_for_topic(
+                state,
+                i,
+                topic.description,
+                topic.answer_expectation,
+                state.content.questions
+            )
             if len(new_questions) > 0:
                 state.content.questions.extend(new_questions)
 
@@ -47,6 +53,7 @@ class PrepareQuestionsNode(INode[PrepareState]):
             state: PrepareState,
             topic_index: int,
             topic: str,
+            answer_expectations: str,
             previous_questions: list[Question]
     ) -> list[Question]:
         questions = state.content.questions or []
@@ -61,6 +68,7 @@ class PrepareQuestionsNode(INode[PrepareState]):
                 setup=state.setup,
                 preparation=state.content,
                 topic=topic,
+                answer_expectations=answer_expectations,
                 previous_questions=previous_questions,
             )
         ))

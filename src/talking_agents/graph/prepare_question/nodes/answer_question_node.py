@@ -30,6 +30,7 @@ class AnswerQuestionsNode(INode[PrepareQuestionState]):
             setup=state.setup,
             preparation=state.preparation,
             previous_questions=previous_questions,
+            answer_expectations=state.answer_expectations,
             original_question=state.current_questions[-1].question,
         ))
 

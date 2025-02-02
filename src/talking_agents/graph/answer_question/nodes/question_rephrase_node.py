@@ -40,6 +40,7 @@ class QuestionRephraseNode(INode[AnswerQuestionState]):
                 "moderator_name": state.setup.moderator.name,
                 "summary": state.preparation.summary,
                 "question": state.original_question,
+                "expectations": state.answer_expectations,
                 "examples": "\n".join(
                     [f" * {example['example']}" for example
                      in self._rephrase_examples.get_selector().select_examples({"question": state.original_question})]

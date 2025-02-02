@@ -38,6 +38,7 @@ class CompletenessEvaluation(INode[AnswerQuestionState]):
         response: CompletenessEvaluationOutput = await model.ainvoke({
             "system_prompt": load_prompt("answer_question", "completeness_evaluation").render({
                 "question": state.original_question,
+                "expectations": state.answer_expectations,
                 "answers": "\n".join([f" * {a}" for a in state.answers]),
             }),
         })

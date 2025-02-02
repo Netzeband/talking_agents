@@ -10,6 +10,7 @@ from talking_agents.graph.prepare.prepare_state import PrepareState
 from talking_agents.graph import INode
 from talking_agents.common.vector_store import VectorStore
 from talking_agents.common.document_store import DocumentStore
+from talking_agents.graph.common.preparation_content import Topic
 
 log = logging.getLogger(__name__)
 
@@ -138,9 +139,9 @@ class PrepareGraph(INode[PrepareState]):
     @staticmethod
     @typechecked()
     def _is_every_topic_already_handled(
-            topics: list[str],
+            topics: list[Topic],
             skipped_topics: list[str],
             questions: list[Question],
     ) -> bool:
         handled_topics = set([q.topic for q in questions] + skipped_topics)
-        return all([t in handled_topics for t in topics])
+        return all([t.description in handled_topics for t in topics])

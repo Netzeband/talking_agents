@@ -61,6 +61,7 @@ class AdaptQuestionsNode(INode[PrepareQuestionState]):
                 "role_description": state.setup.moderator.get_role_description(),
                 "paper_title": state.preparation.title,
                 "topic": state.topic,
+                "expectations": state.answer_expectations,
                 "old_question": state.current_questions[-1].question,
                 "problem_description": self._get_problem_description(state.current_questions[-1]),
                 "avoid_question_examples": "\n".join(

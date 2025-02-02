@@ -45,6 +45,7 @@ class GenerateQuestionNode(INode[PrepareQuestionState]):
                 "role_description": state.setup.moderator.get_role_description(),
                 "paper_title": state.preparation.title,
                 "topic": state.topic,
+                "expectations": state.answer_expectations,
                 "avoid_question_examples": "\n".join(
                     [f"  * '{example['question']}', better alternative: '{example['alternative']}'" for
                      example in self._question_to_avoid_examples.get_selector()

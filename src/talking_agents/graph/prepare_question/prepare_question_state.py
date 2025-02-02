@@ -8,6 +8,7 @@ class PrepareQuestionState(BaseModel):
     setup: PodcastSetup
     preparation: PreparationContent
     topic: str
+    answer_expectations: str
     previous_questions: list[Question]
     # noinspection PyDataclass
     current_questions: list[Question] = Field(default_factory=list)
