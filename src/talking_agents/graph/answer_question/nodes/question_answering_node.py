@@ -4,6 +4,7 @@ from langchain_core.tools import BaseTool
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import logging
+from langchain_core.tools import tool
 
 from talking_agents.graph.common.prompt import load_prompt
 from talking_agents.graph import INode
@@ -27,6 +28,11 @@ class QuestionAnsweringNode(INode[AnswerQuestionState]):
     async def run(self, state: AnswerQuestionState) -> AnswerQuestionState:
         log.info("** ANSWER QUESTION: QUESTION ANSWERING **")
 
+        @tool(response_format="content")
+        def get_summary() -> str:
+            """Returns the summary of the research paper."""
+            return state.preparation.summary
+
         assert state.rephrased_question is not None
         history = self._get_history(state.previous_questions, state.rephrased_question, state.messages)
 
@@ -34,7 +40,7 @@ class QuestionAnsweringNode(INode[AnswerQuestionState]):
             ("system", "{system_prompt}"),
             MessagesPlaceholder("history"),
         ])
-        model = prompt | self._llm.bind_tools(self._tools)
+        model = prompt | self._llm.bind_tools(self._tools + [get_summary])
         response: AIMessage = await model.ainvoke({
             "system_prompt": load_prompt("answer_question", "question_answering").render({
                 "paper_title": state.preparation.title,

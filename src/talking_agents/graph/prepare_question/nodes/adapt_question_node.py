@@ -16,8 +16,8 @@ log = logging.getLogger(__name__)
 
 
 class AdaptQuestionNodeOutput(BaseModel):
-    adapted_question: str | None = Field(None, description="The new questions, which might prevent the issue.")
-    skip: bool = Field(False, description="Indicates, if the question should be skipped completely.")
+    adapted_question: str | None = Field(..., description="The new questions, which might prevent the issue.")
+    skip: bool = Field(..., description="Indicates, if the question should be skipped completely.")
 
 
 class AdaptQuestionsNode(INode[PrepareQuestionState]):

@@ -117,7 +117,6 @@ class PrepareGraph(INode[PrepareState]):
             return Nodes.CREATE_TOPICS
 
         if state.content.introduction is None:
-            sys.exit(-1)
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION
 

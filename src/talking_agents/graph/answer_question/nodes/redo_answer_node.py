@@ -4,6 +4,7 @@ from langchain_core.tools import BaseTool
 from langchain_core.messages import AIMessage, ToolMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import logging
+from langchain_core.tools import tool
 
 from talking_agents.graph.common.prompt import load_prompt
 from talking_agents.graph import INode
@@ -28,6 +29,11 @@ class RedoAnswerNode(INode[AnswerQuestionState]):
         assert state.groundedness.score is not None
         assert state.groundedness.ungrounded_information is not None
 
+        @tool(response_format="content")
+        def get_summary() -> str:
+            """Returns the summary of the research paper."""
+            return state.preparation.summary
+
         # consider only the latest tool messages
         messages = []
         for message in reversed(state.messages):
@@ -43,7 +49,7 @@ class RedoAnswerNode(INode[AnswerQuestionState]):
             ("system", "{system_prompt}"),
             MessagesPlaceholder("history"),
         ])
-        model = prompt | self._llm.bind_tools(self._tools)
+        model = prompt | self._llm.bind_tools(self._tools + [get_summary])
         response: AIMessage = await model.ainvoke({
             "system_prompt": load_prompt("answer_question", "redo_answer").render({
                 "question": state.rephrased_question,

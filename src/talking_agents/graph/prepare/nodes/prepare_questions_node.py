@@ -25,14 +25,14 @@ class PrepareQuestionsNode(INode[PrepareState]):
             state.content.questions = []
 
         for i, topic in enumerate(state.content.topics):
-            new_questions = await self._prepare_question_for_topic(state, i, topic, state.content.questions)
+            new_questions = await self._prepare_question_for_topic(state, i, topic.description, state.content.questions)
             if len(new_questions) > 0:
                 state.content.questions.extend(new_questions)
 
             else:
-                log.info(f" * Skip topic '{topic}', because no questions where found.")
-                if topic not in set([q.topic for q in state.content.questions]):
-                    state.content.skipped_topics.append(topic)
+                log.info(f" * Skip topic '{topic.description}', because no questions where found.")
+                if topic.description not in set([q.topic for q in state.content.questions]):
+                    state.content.skipped_topics.append(topic.description)
 
             state.content.store(
                 output_path=state.setup.output_path,

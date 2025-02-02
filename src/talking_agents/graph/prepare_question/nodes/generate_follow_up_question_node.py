@@ -16,9 +16,9 @@ log = logging.getLogger(__name__)
 
 
 class GenerateFollowUpQuestionNodeOutput(BaseModel):
-    follow_up_question: str | None = Field(None, description="The follow-up question to ask.")
+    follow_up_question: str | None = Field(..., description="The follow-up question to ask.")
     skip: bool = Field(
-        False,
+        ...,
         description="Indicates, if the the topic is already discussed fully and we should continue with a new topic."
     )
 
