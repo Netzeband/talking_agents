@@ -10,4 +10,4 @@ private_additional_information:
     - "He is excited about Machine Learning, but mostly he appears to be professional."
 voice:
     en:
-        ssml: '<voice name="en-US-AndrewNeural"><break time=\"250ms\" />{text}</voice>'
+        ssml: '<voice name="en-US-AndrewNeural"><break time="250ms" />{text}</voice>'

@@ -87,7 +87,7 @@ class VectorStore:
                     "No vector store created now. Either load a vector store or create a new one from documents."
                 )
             self._retriever_tool = create_retriever_tool(
-                retriever=self._vector_store.as_retriever(search_kwargs={"k": 3}),
+                retriever=self._vector_store.as_retriever(search_kwargs={"k": 5}),
                 name="search_paper",
                 description="This tool is used to search for and retrieve information from the paper.",
             )
