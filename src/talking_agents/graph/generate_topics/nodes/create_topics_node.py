@@ -1,6 +1,4 @@
 from typeguard import typechecked
-from langchain_core.messages import HumanMessage
-from langchain_core.prompts import MessagesPlaceholder
 from pydantic import BaseModel, Field
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.language_models import BaseChatModel
@@ -8,7 +6,7 @@ import logging
 
 from talking_agents.graph.common.prompt import load_prompt
 from talking_agents.graph import INode
-from talking_agents.graph.prepare.prepare_state import PrepareState
+from talking_agents.graph.generate_topics import GenerateTopicsState
 from talking_agents.graph.common.preparation_content import Topic as PreparationTopic
 
 log = logging.getLogger(__name__)
@@ -36,7 +34,7 @@ class CreateTopicsNodeOutput(BaseModel):
     )
 
 
-class CreateTopicsNode(INode[PrepareState]):
+class CreateTopicsNode(INode[GenerateTopicsState]):
     @typechecked()
     def __init__(
             self,
@@ -45,18 +43,18 @@ class CreateTopicsNode(INode[PrepareState]):
         self._llm = llm
 
     @typechecked()
-    async def run(self, state: PrepareState) -> PrepareState:
-        log.info("** PREPARE: CREATE TOPICS **")
+    async def run(self, state: GenerateTopicsState) -> GenerateTopicsState:
+        log.info("** GENERATE TOPICS: CREATE TOPICS **")
         prompt = ChatPromptTemplate([
             ("system", "{system_prompt}"),
         ])
         model = prompt | self._llm.with_structured_output(CreateTopicsNodeOutput)
         response = await model.ainvoke({
-            "system_prompt": load_prompt("prepare", "create_podcast_topics").render(
+            "system_prompt": load_prompt("generate_topics", "create_podcast_topics").render(
                 {
                     "role_description": state.setup.moderator.get_role_description(),
-                    "paper_title": state.content.title,
-                    "summary": state.content.summary,
+                    "paper_title": state.preparation.title,
+                    "summary": state.preparation.summary,
                 }
             ),
         })
@@ -68,12 +66,12 @@ class CreateTopicsNode(INode[PrepareState]):
             log.info(" * Topics: %s", len(topics))
             for topic in topics:
                 log.info("   * %s", topic)
-            state.content.topics = [
+            state.raw_topics = [
                 PreparationTopic(**t.model_dump()) for t in topics
             ]
 
         else:
             log.error("Could not create topics.")
-            state.content.topics = None
+            state.raw_topics = []
 
         return state

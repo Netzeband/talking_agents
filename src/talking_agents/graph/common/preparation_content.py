@@ -39,6 +39,21 @@ class Topic(BaseModel):
     description: str
     answer_expectation: str
     reasoning: str
+    original_topics: list[str] | None = None
+    consolidation_reasoning: str | None = None
+
+    def __str__(self) -> str:
+        topic_string = ""
+        topic_string += f"* {self.description}\n"
+        if self.answer_expectation is not None:
+            topic_string += f"  * Answer Expectation: {self.answer_expectation}\n"
+        if self.reasoning is not None:
+            topic_string += f"  * Reasoning: {self.reasoning}\n"
+        if self.original_topics is not None:
+            topic_string += f"  * Original Topics:\n{'\n'.join([f'    * {t}' for t in self.original_topics])}\n"
+        if self.consolidation_reasoning is not None:
+            topic_string += f"  * Consolidation Reasoning: {self.consolidation_reasoning}\n"
+        return topic_string
 
 
 class PreparationContent(BaseModel):

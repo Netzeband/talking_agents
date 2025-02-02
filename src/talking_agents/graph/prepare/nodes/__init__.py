@@ -4,7 +4,7 @@ from .create_image_descriptions_node import CreateImageDescriptionsNode
 from .create_vector_store import CreateVectorStore
 from .create_introduction_node import CreateIntroductionNode
 from .prepare_questions_node import PrepareQuestionsNode
-from .create_topics_node import CreateTopicsNode
+from .generate_topics_node import GenerateTopicsNode
 from .create_wrapup_node import CreateWrapUpNode
 from .download_paper_node import DownloadPaperNode
 from .extract_document_node import ExtractDocumentNode

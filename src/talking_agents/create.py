@@ -22,7 +22,7 @@ from talking_agents.graph.main.nodes import PrepareNode, InterviewNode, PostProc
 from talking_agents.graph.prepare.prepare_graph import PrepareGraph
 from talking_agents.graph.prepare.nodes import (
     CreateTitleNode, CreateImageDescriptionsNode, CreateVectorStore, CreateIntroductionNode, CreateWrapUpNode,
-    CreateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode, CreateTableDescriptionsNode,
+    GenerateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode, CreateTableDescriptionsNode,
     CreateSummaryNode
 )
 from talking_agents.graph.prepare_question.prepare_question_graph import PrepareQuestionGraph
@@ -47,6 +47,9 @@ from talking_agents.graph.answer_question.nodes import (
 from talking_agents.video_processing.audacity import Audacity
 from talking_agents.video_processing.audio_mixer import AudioMixer, MixerSettings
 from talking_agents.video_processing.video_mixer import VideoMixer
+from talking_agents.graph.generate_topics.generate_topics_graph import GenerateTopicsGraph
+from talking_agents.graph.generate_topics.nodes import CreateTopicsNode, ReviewTopicsNode
+
 
 async def create(
         episode_config_path: Path,
@@ -69,6 +72,15 @@ async def create(
         settings.few_shot_example_path,
         "questions_to_avoid",
         k=4
+    )
+
+    generate_topics_graph = GenerateTopicsGraph(
+        create_topics_node=CreateTopicsNode(
+            llm=ChatOpenAI(model="o1"),
+        ),
+        review_topics_node=ReviewTopicsNode(
+            llm=ChatOpenAI(model="o1"),
+        ),
     )
     prepare_graph = PrepareGraph(
         vector_store=vector_store,
@@ -102,11 +114,11 @@ async def create(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
             vector_store=vector_store,
         ),
+        create_topics_node=GenerateTopicsNode(
+            generate_topics_graph=generate_topics_graph,
+        ),
         create_introduction_node=CreateIntroductionNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=1.0),
-        ),
-        create_topics_node=CreateTopicsNode(
-            llm=ChatOpenAI(model="o1"),
         ),
         prepare_questions_node=PrepareQuestionsNode(
             prepare_question_graph=PrepareQuestionGraph(
