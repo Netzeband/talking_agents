@@ -58,7 +58,7 @@ class ExtractDocumentNode(INode[PrepareState]):
                 languages=['eng'],
             ),
         )
-        result = await self._client.general.partition_async(request=request)
+        result = self._client.general.partition(request=request)
 
         cache_file = state.setup.episode_output_dir / "extracted_document.json"
         with cache_file.open("w") as f:

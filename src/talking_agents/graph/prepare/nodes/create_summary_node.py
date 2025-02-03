@@ -1,8 +1,7 @@
 from typeguard import typechecked
 from langchain_core.language_models import BaseChatModel
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage
-from pydantic import BaseModel, Field
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
 import logging
 
 from talking_agents.graph.common.prompt import load_prompt
@@ -14,14 +13,6 @@ log = logging.getLogger(__name__)
 
 
 TEXT_LENGTH = 5000
-
-
-class CreateSummaryNodeOutput(BaseModel):
-    combined_summary: str | None = Field(
-        ...,
-        description="The combined summary, which contains information and topics from the old summary, "
-                    "but also from the new context."
-    )
 
 
 class CreateSummaryNode(INode[PrepareState]):
@@ -50,15 +41,15 @@ class CreateSummaryNode(INode[PrepareState]):
                     "{system_prompt}"
                 ),
             ])
-            model = prompt | self._llm.with_structured_output(CreateSummaryNodeOutput)
-            response: CreateSummaryNodeOutput = await model.ainvoke({
+            model = prompt | self._llm | StrOutputParser()
+            response = await model.ainvoke({
                 "system_prompt": load_prompt("prepare", "create_summary").render({
                     "old_summary": summary,
                     "new_context": chunk_text,
                 }),
             })
             chunk_text = ""
-            summary = response.combined_summary
+            summary = response
 
         log.info(" * Summary: %s", summary)
         state.content.summary = summary

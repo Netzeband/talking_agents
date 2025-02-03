@@ -3,17 +3,13 @@ import logging
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import SystemMessage, BaseMessage
-from pydantic import BaseModel, Field
+from langchain_core.output_parsers import StrOutputParser
 
 from talking_agents.graph.common.prompt import load_prompt
 from talking_agents.graph import INode
 from talking_agents.graph.guest import GuestState
 
 log = logging.getLogger(__name__)
-
-
-class PaperQuestionAnsweringNodeOutput(BaseModel):
-    answer: str = Field(..., description="The answer to give to the moderator.")
 
 
 class PaperQuestionAnsweringNode(INode):
@@ -36,11 +32,11 @@ class PaperQuestionAnsweringNode(INode):
             })),
             MessagesPlaceholder("history"),
         ])
-        model = prompt | self._llm.with_structured_output(PaperQuestionAnsweringNodeOutput)
-        response: PaperQuestionAnsweringNodeOutput = await model.ainvoke({
+        model = prompt | self._llm | StrOutputParser()
+        response = await model.ainvoke({
             "history": state.history + self._get_ai_assistant_message(state)
         })
-        state.answer = response.answer
+        state.answer = response
         state.answer_groundedness = state.preparation.questions[state.next_question].groundedness
         state.answer_redundancy = state.preparation.questions[state.next_question].redundancy
         state.topic = state.preparation.questions[state.next_question].topic
