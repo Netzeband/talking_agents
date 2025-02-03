@@ -200,7 +200,7 @@ async def create(
             tools_node=ToolNode(casual_tools),
         ),
         paper_question_answering_node=PaperQuestionAnsweringNode(
-            llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+            llm=ChatOpenAI(model="gpt-4o", temperature=0.5, frequency_penalty=0, presence_penalty=0, top_p=0),
             min_accepted_grounded_score=settings.min_accepted_grounded_score,
         )
     )

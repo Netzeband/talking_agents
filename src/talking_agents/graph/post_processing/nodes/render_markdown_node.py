@@ -28,6 +28,15 @@ class RenderMarkdownNode(INode[PostProcessingState]):
         with full_markdown_path.open("w", encoding="utf-8") as f:
             f.write(self._get_markdown_text(state))
             state.content.markdown_path = markdown_path
+
+        file_name = f"episode_{state.setup.episode_number}_{state.content.language.value}_teaser.md"
+        markdown_path = state.content.output_path / file_name
+        full_markdown_path = state.setup.episode_output_dir / markdown_path
+        full_markdown_path.parent.mkdir(exist_ok=True, parents=True)
+        with full_markdown_path.open("w", encoding="utf-8") as f:
+            f.write(self._get_teaser_markdown_text(state))
+            state.content.teaser_markdown_path = markdown_path
+
         return state
 
     @typechecked()
@@ -52,6 +61,25 @@ class RenderMarkdownNode(INode[PostProcessingState]):
             "episode_number": state.setup.episode_number,
             "date": state.preparation.date.strftime("%A the %B %d, %Y"),
             "teaser": state.content.core_teaser,
+            "interview": self._get_interview_text(state),
+            "average_redundancy_score": f"{avg_redundancy_score * 100:.0f}%",
+            "average_groundedness_score": f"{avg_groundedness_score * 100:.0f}%",
+            "max_redundancy_score": f"{max_redundancy_score * 100:.0f}%",
+            "min_groundedness_score": f"{min_groundedness_score * 100:.0f}%",
+            "min_accepted_groundedness_score": f"{self._min_accepted_groundedness_score * 100:.0f}%",
+            "paper_title": state.preparation.title,
+            "paper_url": state.setup.paper_url,
+            "web_sources": self._get_web_sources(state),
+        })
+
+    @typechecked()
+    def _get_teaser_markdown_text(self, state: PostProcessingState) -> str:
+        avg_redundancy_score, max_redundancy_score = self._get_redundancy_score(state)
+        avg_groundedness_score, min_groundedness_score = self._get_groundedness_score(state)
+        return load_prompt("post_processing", f"teaser_markdown_{state.content.language.value}").render({
+            "episode_number": state.setup.episode_number,
+            "date": state.preparation.date.strftime("%A the %B %d, %Y"),
+            "teaser": state.content.full_teaser,
             "interview": self._get_interview_text(state),
             "average_redundancy_score": f"{avg_redundancy_score * 100:.0f}%",
             "average_groundedness_score": f"{avg_groundedness_score * 100:.0f}%",

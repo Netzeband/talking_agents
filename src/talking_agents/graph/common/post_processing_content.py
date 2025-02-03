@@ -24,6 +24,7 @@ class PostProcessingContentVariant(BaseModel):
     full_teaser: str | None = None
     core_teaser: str | None = None
     markdown_path: PurePosixPath | None = None
+    teaser_markdown_path: PurePosixPath | None = None
     audio_adapted_interview: list[Message] | None = None
     audio_path: PurePosixPath | None = None
     video: VideoCreationContent | None = None

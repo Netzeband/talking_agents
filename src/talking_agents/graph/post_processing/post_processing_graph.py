@@ -61,7 +61,9 @@ class PostProcessingGraph(INode[PostProcessingState]):
             return Nodes.CREATE_TEASER
 
         if (state.content.markdown_path is None or
-                not (state.setup.episode_output_dir / Path(state.content.markdown_path)).exists()
+            not (state.setup.episode_output_dir / Path(state.content.markdown_path)).exists() or
+            state.content.teaser_markdown_path is None or
+            not (state.setup.episode_output_dir / Path(state.content.teaser_markdown_path)).exists()
         ):
             log.info(" => Render Markdown file ...")
             return Nodes.RENDER_MARKDOWN
