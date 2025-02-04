@@ -7,3 +7,4 @@ from .redo_answer_node import RedoAnswerNode
 from .completeness_evaluation import CompletenessEvaluation
 from .follow_up_answer_node import FollowUpAnswerNode
 from .redundancy_evaluation_node import RedundancyEvaluationNode
+from .search_example_node import SearchExampleNode

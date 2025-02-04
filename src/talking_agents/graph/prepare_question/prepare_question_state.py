@@ -7,6 +7,7 @@ from talking_agents.graph.common.preparation_content import PreparationContent, 
 class PrepareQuestionState(BaseModel):
     setup: PodcastSetup
     preparation: PreparationContent
+    expect_examples: bool
     topic: str
     answer_expectations: str
     previous_questions: list[Question]

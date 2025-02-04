@@ -42,7 +42,7 @@ from talking_agents.graph.prepare_question.nodes import (
 from talking_agents.graph.answer_question.answer_question_graph import AnswerQuestionGraph
 from talking_agents.graph.answer_question.nodes import (
     QuestionRephraseNode, QuestionAnsweringNode, QuestionToolUsageNode, GroundednessEvaluation, RedoAnswerNode,
-    CompletenessEvaluation, FollowUpAnswerNode, RedundancyEvaluationNode
+    CompletenessEvaluation, FollowUpAnswerNode, RedundancyEvaluationNode, SearchExampleNode
 )
 from talking_agents.video_processing.audacity import Audacity
 from talking_agents.video_processing.audio_mixer import AudioMixer, MixerSettings
@@ -68,6 +68,10 @@ async def create(
     paper_tools = [
         TavilySearchResults(max_results=2),
         vector_store.get_retrieval_tool(),
+    ]
+    paper_example_tools = [
+        TavilySearchResults(max_results=2),
+        example_store.get_retrieval_tool(),
     ]
     casual_tools = [
         TavilySearchResults(max_results=2),
@@ -154,6 +158,13 @@ async def create(
                             ),
                             tools_node=ToolNode(paper_tools),
                         ),
+                        search_example_node=QuestionToolUsageNode(
+                            node=SearchExampleNode(
+                                llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+                                tools=paper_example_tools,
+                            ),
+                            tools_node=ToolNode(paper_example_tools),
+                        ),
                         groundedness_evaluation_node=GroundednessEvaluation(
                             llm=ChatOpenAI(model="gpt-4o", temperature=0.0),
                         ),
@@ -170,9 +181,9 @@ async def create(
                         follow_up_answer_node=QuestionToolUsageNode(
                             node=FollowUpAnswerNode(
                                 llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
-                                tools=paper_tools,
+                                tools=paper_tools + paper_example_tools,
                             ),
-                            tools_node=ToolNode(paper_tools),
+                            tools_node=ToolNode(paper_tools + paper_example_tools),
                         ),
                         redundancy_evaluation_node=RedundancyEvaluationNode(
                             llm=ChatOpenAI(model="gpt-4o", temperature=0.0),

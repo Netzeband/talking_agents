@@ -15,6 +15,7 @@ class AnswerQuestionGraph(INode[AnswerQuestionState]):
             self,
             question_rephrase_node: INode[AnswerQuestionState],
             question_answering_node: INode[AnswerQuestionState],
+            search_example_node: INode[AnswerQuestionState],
             groundedness_evaluation_node: INode[AnswerQuestionState],
             redo_answer_node: INode[AnswerQuestionState],
             completeness_evaluation_node: INode[AnswerQuestionState],
@@ -31,6 +32,7 @@ class AnswerQuestionGraph(INode[AnswerQuestionState]):
         graph_builder = StateGraph(AnswerQuestionState)
         graph_builder.add_node(AnswerQuestionNodes.QUESTION_REPHRASE, question_rephrase_node.run)
         graph_builder.add_node(AnswerQuestionNodes.QUESTION_ANSWERING, question_answering_node.run)
+        graph_builder.add_node(AnswerQuestionNodes.SEARCH_EXAMPLE, search_example_node.run)
         graph_builder.add_node(AnswerQuestionNodes.GROUNDEDNESS_EVALUATION, groundedness_evaluation_node.run)
         graph_builder.add_node(AnswerQuestionNodes.REDO_ANSWER, redo_answer_node.run)
         graph_builder.add_node(AnswerQuestionNodes.COMPLETENESS_EVALUATION, completeness_evaluation_node.run)
@@ -40,7 +42,11 @@ class AnswerQuestionGraph(INode[AnswerQuestionState]):
         graph_builder.add_edge(START, AnswerQuestionNodes.QUESTION_REPHRASE)
         graph_builder.add_edge(AnswerQuestionNodes.QUESTION_REPHRASE, AnswerQuestionNodes.QUESTION_ANSWERING)
 
-        graph_builder.add_edge(AnswerQuestionNodes.QUESTION_ANSWERING, AnswerQuestionNodes.GROUNDEDNESS_EVALUATION)
+        graph_builder.add_conditional_edges(
+            AnswerQuestionNodes.QUESTION_ANSWERING,
+            self._search_example_or_evaluate_groundedness
+        )
+        graph_builder.add_edge(AnswerQuestionNodes.SEARCH_EXAMPLE, AnswerQuestionNodes.GROUNDEDNESS_EVALUATION)
         graph_builder.add_conditional_edges(
             AnswerQuestionNodes.GROUNDEDNESS_EVALUATION,
             self._redo_answer_or_completeness_evaluation
@@ -63,6 +69,11 @@ class AnswerQuestionGraph(INode[AnswerQuestionState]):
         result = AnswerQuestionState.model_validate(await self._graph.ainvoke(state))
         return result
 
+    @typechecked()
+    def _search_example_or_evaluate_groundedness(self, state: AnswerQuestionState) -> AnswerQuestionNodes | str:
+        if state.expect_examples:
+            return AnswerQuestionNodes.SEARCH_EXAMPLE
+        return AnswerQuestionNodes.GROUNDEDNESS_EVALUATION
 
     @typechecked()
     def _redo_answer_or_completeness_evaluation(self, state: AnswerQuestionState) -> AnswerQuestionNodes | str:

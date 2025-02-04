@@ -32,6 +32,7 @@ class AnswerQuestionsNode(INode[PrepareQuestionState]):
             previous_questions=previous_questions,
             answer_expectations=state.answer_expectations,
             original_question=state.current_questions[-1].question,
+            expect_examples=state.expect_examples,
         ))
 
         state.current_questions[-1].metadata["rephrased_question"] = result.rephrased_question

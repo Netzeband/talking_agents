@@ -14,6 +14,7 @@ class AnswerQuestionState(BaseModel):
     preparation: PreparationContent
     previous_questions: list[Question]
 
+    expect_examples: bool
     answer_expectations: str
     original_question: str
     rephrased_question: str | None = None

@@ -70,6 +70,7 @@ class PrepareQuestionsNode(INode[PrepareState]):
                 topic=topic,
                 answer_expectations=answer_expectations,
                 previous_questions=previous_questions,
+                expect_examples=topic_index > 0, # expect examples for all topics except the first one
             )
         ))
 
