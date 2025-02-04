@@ -20,6 +20,7 @@ class PrepareGraph(INode[PrepareState]):
     def __init__(
             self,
             vector_store: VectorStore,
+            example_store: VectorStore,
             document_store: DocumentStore,
             download_paper_node: INode[PrepareState],
             extract_document_node: INode[PrepareState],
@@ -28,12 +29,14 @@ class PrepareGraph(INode[PrepareState]):
             create_title_node: INode[PrepareState],
             create_summary_node: INode[PrepareState],
             create_vector_store_node: INode[PrepareState],
+            find_example_node: INode[PrepareState],
             create_introduction_node: INode[PrepareState],
             create_topics_node: INode[PrepareState],
             prepare_questions_node: INode[PrepareState],
             create_wrapup_node: INode[PrepareState],
     ):
         self._vector_store = vector_store
+        self._example_store = example_store
         self._document_store = document_store
 
         graph_builder = StateGraph(PrepareState)
@@ -42,6 +45,7 @@ class PrepareGraph(INode[PrepareState]):
         graph_builder.add_node(Nodes.CREATE_IMAGE_DESCRIPTIONS, create_image_descriptions_node.run)
         graph_builder.add_node(Nodes.CREATE_TABLE_DESCRIPTIONS, create_table_descriptions_node.run)
         graph_builder.add_node(Nodes.CREATE_VECTOR_STORE, create_vector_store_node.run)
+        graph_builder.add_node(Nodes.FIND_EXAMPLES, find_example_node.run)
         graph_builder.add_node(Nodes.CREATE_TITLE, create_title_node.run)
         graph_builder.add_node(Nodes.CREATE_SUMMARY, create_summary_node.run)
         graph_builder.add_node(Nodes.CREATE_INTRODUCTION, create_introduction_node.run)
@@ -55,6 +59,7 @@ class PrepareGraph(INode[PrepareState]):
         graph_builder.add_conditional_edges(Nodes.CREATE_IMAGE_DESCRIPTIONS, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_TABLE_DESCRIPTIONS, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_VECTOR_STORE, self._transition)
+        graph_builder.add_conditional_edges(Nodes.FIND_EXAMPLES, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_TITLE, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_SUMMARY, self._transition)
         graph_builder.add_conditional_edges(Nodes.CREATE_INTRODUCTION, self._transition)
@@ -104,6 +109,14 @@ class PrepareGraph(INode[PrepareState]):
             assert state.content.table_descriptions is not None
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
+
+        if (state.content.example_store_entries is None or
+            not self._example_store.is_ready() or
+            state.content.example_store_entries != self._example_store.get_number_of_entries()
+        ):
+            assert self._vector_store.is_ready()
+            log.info(" => Example store not created ...")
+            return Nodes.FIND_EXAMPLES
 
         if state.content.title is None:
             log.info(" => Title not created ...")

@@ -13,3 +13,4 @@ class Nodes(StrEnum):
     CREATE_TOPICS = auto()
     CREATE_WRAP_UP = auto()
     CREATE_VECTOR_STORE = auto()
+    FIND_EXAMPLES = auto()

@@ -23,7 +23,7 @@ from talking_agents.graph.prepare.prepare_graph import PrepareGraph
 from talking_agents.graph.prepare.nodes import (
     CreateTitleNode, CreateImageDescriptionsNode, CreateVectorStore, CreateIntroductionNode, CreateWrapUpNode,
     GenerateTopicsNode, PrepareQuestionsNode, DownloadPaperNode, ExtractDocumentNode, CreateTableDescriptionsNode,
-    CreateSummaryNode
+    CreateSummaryNode, FindExamplesNode
 )
 from talking_agents.graph.prepare_question.prepare_question_graph import PrepareQuestionGraph
 from talking_agents.graph.interview.interview_graph import InterviewGraph
@@ -59,6 +59,11 @@ async def create(
 ):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
     vector_store = VectorStore(embeddings)
+    example_store = VectorStore(
+        embeddings,
+        tool_name="search_examples",
+        tool_description="This tool is used to search and retrieve examples from the paper.",
+    )
     document_store = DocumentStore()
     paper_tools = [
         TavilySearchResults(max_results=2),
@@ -84,6 +89,7 @@ async def create(
     )
     prepare_graph = PrepareGraph(
         vector_store=vector_store,
+        example_store=example_store,
         document_store=document_store,
         download_paper_node=DownloadPaperNode(),
         extract_document_node=ExtractDocumentNode(
@@ -105,6 +111,11 @@ async def create(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
             vector_store=vector_store,
             document_store=document_store,
+        ),
+        find_example_node=FindExamplesNode(
+            llm=ChatOpenAI(model="gpt-4o", temperature=0.5),
+            vector_store=vector_store,
+            example_store=example_store,
         ),
         create_title_node=CreateTitleNode(
             llm=ChatOpenAI(model="gpt-4o", temperature=0.5),

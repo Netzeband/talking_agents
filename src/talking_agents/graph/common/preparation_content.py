@@ -71,6 +71,7 @@ class PreparationContent(BaseModel):
     image_descriptions: dict[str, str] | None = None
     table_descriptions: dict[str, str] | None = None
     vector_store_entries: int | None = None
+    example_store_entries: int | None = None
 
     def store(self, output_path: Path, episode_number: int):
         content_path = output_path / f"episode_{episode_number}"

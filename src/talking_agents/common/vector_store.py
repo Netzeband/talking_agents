@@ -13,11 +13,19 @@ import json
 
 class VectorStore:
     @typechecked()
-    def __init__(self, embeddings: OpenAIEmbeddings):
+    def __init__(
+            self,
+            embeddings: OpenAIEmbeddings,
+            tool_name: str | None = None,
+            tool_description: str | None = None,
+    ):
         self._embeddings = embeddings
         self._vector_store: FAISS | None = None
         self._retriever_tool: BaseTool | None = None
         self._text_content: dict[str, str] = {}
+        self._tool_name = tool_name or "search_paper"
+        self._tool_description = (tool_description or
+                                  "This tool is used to search and retrieve information from the paper.")
 
     @typechecked()
     def is_ready(self) -> bool:
@@ -73,8 +81,8 @@ class VectorStore:
     @typechecked()
     def get_retrieval_tool(self) -> BaseTool:
         return Tool(
-            name="search_paper",
-            description="This tool is used to search and retrieve information from the paper.",
+            name=self._tool_name,
+            description=self._tool_description,
             func=self._retrieve,
             coroutine=self._aretrieve,
             args_schema=RetrieverInput,
@@ -87,7 +95,7 @@ class VectorStore:
                     "No vector store created now. Either load a vector store or create a new one from documents."
                 )
             self._retriever_tool = create_retriever_tool(
-                retriever=self._vector_store.as_retriever(search_kwargs={"k": 5}),
+                retriever=self._vector_store.as_retriever(search_kwargs={"k": 10}),
                 name="search_paper",
                 description="This tool is used to search for and retrieve information from the paper.",
             )
