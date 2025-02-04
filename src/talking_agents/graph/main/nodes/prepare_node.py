@@ -20,7 +20,8 @@ class PrepareNode(INode[State]):
     async def run(self, state: State) -> State:
         log.info("** PREPARE **.")
         # permanently store the date of the first run
-        state.content.preparation.date = state.setup.date
+        if state.content.preparation.date is None:
+            state.content.preparation.date = state.setup.date
         result = PrepareState.model_validate(await self._prepare_graph.run(
             PrepareState(
                 setup=state.setup,
