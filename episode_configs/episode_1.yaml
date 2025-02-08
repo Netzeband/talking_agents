@@ -1,5 +1,4 @@
 episode_number: 1
-document_path: "../../doc_pipe/examples/output/arxiv_paper/1706.03762/markdown/1706.03762.md"
 paper_url: "https://arxiv.org/abs/1706.03762"
 moderator_persona: "personas/host_frank.yaml"
 guest_persona: "personas/guest_sandra.yaml"
