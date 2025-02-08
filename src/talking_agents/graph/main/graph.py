@@ -5,6 +5,7 @@ import logging
 from src.talking_agents.graph.main.state import State
 from src.talking_agents.graph.main.nodes import Nodes
 from src.talking_agents.graph import INode
+from src.talking_agents.graph.common import is_max_state, get_max_state
 
 log = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ class Graph(INode[State]):
 
     async def run(self, state: State) -> State:
         log.info("Start main agent graph.")
+        state.max_state = get_max_state([], state.setup.max_state, 0, Nodes)
         result = State.model_validate(await self._graph.ainvoke(state))
         return result
 
@@ -38,15 +40,13 @@ class Graph(INode[State]):
     @staticmethod
     @typechecked()
     def _goto_interview(state: State) -> Nodes | str:
-        max_state = Nodes(state.setup.max_state.lower())
-        if max_state == Nodes.PREPARE:
+        if is_max_state(state.max_state, Nodes.PREPARE):
             return END
         return Nodes.INTERVIEW
 
     @staticmethod
     @typechecked()
     def _goto_post_processing(state: State) -> Nodes | str:
-        max_state = Nodes(state.setup.max_state.lower())
-        if max_state == Nodes.INTERVIEW:
+        if is_max_state(state.max_state, Nodes.INTERVIEW):
             return END
         return Nodes.POST_PROCESSING

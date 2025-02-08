@@ -29,9 +29,11 @@ def main():
         "--step",
         type=str,
         required=False,
-        help="Defines optionally up to which step the podcast should be crated. The following steps are available: "
-             "prepare, interview, post-processing (post-processing is the default)",
-        default="post_processing",
+        help="Defines optionally up to which step the podcast should be crated. It is defined by a string for the "
+             "highest level state machine and then optionally by follow up strings, divided by ':'. See README.md "
+             "for more details. The following steps are available: "
+             "first level: prepare, interview, post-processing ",
+        default=None,
     )
     args = parser.parse_args()
     asyncio.run(create(

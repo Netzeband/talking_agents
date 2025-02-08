@@ -54,7 +54,7 @@ from src.talking_agents.graph.generate_topics.nodes import CreateTopicsNode, Rev
 async def create(
         episode_config_path: Path,
         output_path: Path,
-        max_state: str,
+        max_state: str | None,
         settings: Settings,
 ):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
@@ -276,7 +276,7 @@ async def create(
 
     episode_config = EpisodeConfig.from_file(episode_config_path)
     setup = PodcastSetup(
-        max_state=max_state,
+        max_state=max_state.split(":") if max_state is not None else [],
         date=datetime.now(tz=tzlocal()),
         episode_number=episode_config.episode_number,
         document_path=episode_config.document_path,

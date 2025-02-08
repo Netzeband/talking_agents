@@ -6,6 +6,7 @@ from src.talking_agents.graph.interview.nodes import Nodes
 from src.talking_agents.graph.interview.interview_state import InterviewState
 from src.talking_agents.graph.common.interview_content import InterviewRoles
 from src.talking_agents.graph import INode
+from src.talking_agents.graph.common import is_max_state, get_max_state_from_number
 
 log = logging.getLogger(__name__)
 
@@ -30,6 +31,13 @@ class InterviewGraph(INode[InterviewState]):
     @typechecked()
     async def run(self, state: InterviewState) -> InterviewState:
         log.info("Start interview agent graph.")
+        state.max_question_index = get_max_state_from_number(
+            ["interview"],
+            state.setup.max_state,
+            1,
+            -1,
+            len(state.preparation.questions) + 1
+        )
         result = InterviewState.model_validate(await self._graph.ainvoke(
             state,
             {"recursion_limit": 40},
@@ -42,6 +50,9 @@ class InterviewGraph(INode[InterviewState]):
             output_path=state.setup.output_path,
             episode_number=state.setup.episode_number,
         )
+
+        if is_max_state(state.max_question_index, state.content.next_question):
+            return END
 
         if len(state.content.talk) >= (len(state.preparation.questions) * 2) + 10:
             log.warning("Talk ended because too many messages have been generated.")

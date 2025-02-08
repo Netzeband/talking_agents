@@ -9,3 +9,4 @@ class InterviewState(BaseModel):
     setup: PodcastSetup
     preparation: PreparationContent
     content: InterviewContent = Field(default_factory=InterviewContent)
+    max_question_index: int | None = None

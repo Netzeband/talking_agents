@@ -1,3 +1,5 @@
+import enum
+
 from pydantic import BaseModel
 
 from src.talking_agents.graph.common.setup import PodcastSetup
@@ -11,3 +13,4 @@ class PostProcessingState(BaseModel):
     preparation: PreparationContent
     interview: InterviewContent
     content: PostProcessingContentVariant
+    max_state: enum.StrEnum | None = None

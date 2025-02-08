@@ -11,6 +11,7 @@ from src.talking_agents.graph import INode
 from src.talking_agents.common.vector_store import VectorStore
 from src.talking_agents.common.document_store import DocumentStore
 from src.talking_agents.graph.common.preparation_content import Topic
+from src.talking_agents.graph.common import is_max_state, get_max_state
 
 log = logging.getLogger(__name__)
 
@@ -72,6 +73,9 @@ class PrepareGraph(INode[PrepareState]):
     @typechecked()
     async def run(self, state: PrepareState) -> PrepareState:
         log.info("Start prepare agent graph.")
+        state.max_state = get_max_state(
+            ["prepare"], state.setup.max_state, 1, Nodes
+        )
         result = PrepareState.model_validate(await self._graph.ainvoke(state))
         return result
 
@@ -82,9 +86,15 @@ class PrepareGraph(INode[PrepareState]):
             episode_number=state.setup.episode_number,
         )
 
+        if state.end_graph:
+            print(f"Abort FSM: Maximum state '{state.max_state}' reached.")
+            return END
+
         if state.content.input_file is None:
             log.info(" => Input file does not exist so far ...")
             return Nodes.DOWNLOAD_PAPER
+        elif is_max_state(state.max_state, Nodes.DOWNLOAD_PAPER):
+            return END
 
         if ((state.content.extracted_document_file is None) or
                 (not state.content.extracted_document_file.exists()) or
@@ -92,14 +102,20 @@ class PrepareGraph(INode[PrepareState]):
         ):
             log.info(" => Document is not extracted ...")
             return Nodes.EXTRACT_DOCUMENT
+        elif is_max_state(state.max_state, Nodes.EXTRACT_DOCUMENT):
+            return END
 
         if state.content.image_descriptions is None:
             log.info(" => Image descriptions not created ...")
             return Nodes.CREATE_IMAGE_DESCRIPTIONS
+        elif is_max_state(state.max_state, Nodes.CREATE_IMAGE_DESCRIPTIONS):
+            return END
 
         if state.content.table_descriptions is None:
             log.info(" => Table descriptions not created ...")
             return Nodes.CREATE_TABLE_DESCRIPTIONS
+        elif is_max_state(state.max_state, Nodes.CREATE_TABLE_DESCRIPTIONS):
+            return END
 
         if (state.content.vector_store_entries is None or
             not self._vector_store.is_ready() or
@@ -109,6 +125,8 @@ class PrepareGraph(INode[PrepareState]):
             assert state.content.table_descriptions is not None
             log.info(" => Vector store not created ...")
             return Nodes.CREATE_VECTOR_STORE
+        elif is_max_state(state.max_state, Nodes.CREATE_VECTOR_STORE):
+            return END
 
         if (state.content.example_store_entries is None or
             not self._example_store.is_ready() or
@@ -117,22 +135,32 @@ class PrepareGraph(INode[PrepareState]):
             assert self._vector_store.is_ready()
             log.info(" => Example store not created ...")
             return Nodes.FIND_EXAMPLES
+        elif is_max_state(state.max_state, Nodes.FIND_EXAMPLES):
+            return END
 
         if state.content.title is None:
             log.info(" => Title not created ...")
             return Nodes.CREATE_TITLE
+        elif is_max_state(state.max_state, Nodes.CREATE_TITLE):
+            return END
 
         if state.content.summary is None:
             log.info(" => Summary not created ...")
             return Nodes.CREATE_SUMMARY
+        elif is_max_state(state.max_state, Nodes.CREATE_SUMMARY):
+            return END
 
         if state.content.topics is None:
             log.info(" => Topics not created ...")
             return Nodes.CREATE_TOPICS
+        elif is_max_state(state.max_state, Nodes.CREATE_TOPICS):
+            return END
 
         if state.content.introduction is None:
             log.info(" => Introduction not created ...")
             return Nodes.CREATE_INTRODUCTION
+        elif is_max_state(state.max_state, Nodes.CREATE_INTRODUCTION):
+            return END
 
         if (state.content.questions is None or
                 not self._is_every_topic_already_handled(
@@ -140,10 +168,14 @@ class PrepareGraph(INode[PrepareState]):
                 )):
             log.info(" => Questions not created ...")
             return Nodes.PREPARE_QUESTIONS
+        elif is_max_state(state.max_state, Nodes.PREPARE_QUESTIONS):
+            return END
 
         if state.content.wrapup is None:
             log.info(" => Wrap-up not created ...")
             return Nodes.CREATE_WRAP_UP
+        elif is_max_state(state.max_state, Nodes.CREATE_WRAP_UP):
+            return END
 
         log.info(" => Finished prepare agent graph.")
         return END

@@ -5,6 +5,7 @@ from src.talking_agents.graph import INode
 from src.talking_agents.graph.common.preparation_content import Question
 from src.talking_agents.graph.prepare.prepare_state import PrepareState
 from src.talking_agents.graph.prepare_question import PrepareQuestionState
+from src.talking_agents.graph.common import get_max_state_from_number, is_max_state
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +25,16 @@ class PrepareQuestionsNode(INode[PrepareState]):
         if not state.content.questions:
             state.content.questions = []
 
+        max_topic_index = get_max_state_from_number(
+            ["prepare", "prepare_questions"],
+            state.setup.max_state, 2, 0, len(state.content.topics)
+        )
+
         for i, topic in enumerate(state.content.topics):
+            if is_max_state(max_topic_index, i):
+                state.end_graph = True
+                break
+
             new_questions = await self._prepare_question_for_topic(
                 state,
                 i,

@@ -7,7 +7,7 @@ from src.talking_agents.common import Persona, Languages
 
 class PodcastSetup(BaseModel):
     document_path: Path | None = None
-    max_state: str
+    max_state: list[str]
     date: datetime
     paper_url: str
     episode_number: int

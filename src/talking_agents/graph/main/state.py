@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from pathlib import Path
+import enum
 
 from src.talking_agents.graph.common.setup import PodcastSetup
 from src.talking_agents.common import Languages
@@ -39,3 +40,4 @@ class PodcastContent(BaseModel):
 class State(BaseModel):
     setup: PodcastSetup
     content: PodcastContent = Field(default_factory=PodcastContent)
+    max_state: enum.StrEnum | None = None
