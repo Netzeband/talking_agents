@@ -1,11 +1,11 @@
 from typeguard import typechecked
 import logging
 
-from talking_agents.common import SpeechText, VoiceConfig
-from talking_agents.common.interface_speech_engine import ISpeechEngine
-from talking_agents.graph import INode
-from talking_agents.graph.common.interview_content import InterviewRoles
-from talking_agents.graph.post_processing import PostProcessingState
+from src.talking_agents.common import SpeechText, VoiceConfig
+from src.talking_agents.common.interface_speech_engine import ISpeechEngine
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.common.interview_content import InterviewRoles
+from src.talking_agents.graph.post_processing import PostProcessingState
 
 log = logging.getLogger(__name__)
 

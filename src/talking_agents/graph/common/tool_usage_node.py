@@ -6,7 +6,7 @@ from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from enum import StrEnum, auto
 import logging
 
-from talking_agents.graph.interface_node import INode, TState
+from src.talking_agents.graph.interface_node import INode, TState
 
 log = logging.getLogger(__name__)
 

@@ -5,12 +5,12 @@ from langchain_core.messages import BaseMessage, HumanMessage
 from pydantic import BaseModel, Field
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.common.languages import get_language_name
-from talking_agents.graph.common.interview_content import Message, InterviewRoles
-from talking_agents.graph.common.setup import PodcastSetup
-from talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.post_processing import PostProcessingState
+from src.talking_agents.common.languages import get_language_name
+from src.talking_agents.graph.common.interview_content import Message, InterviewRoles
+from src.talking_agents.graph.common.setup import PodcastSetup
+from src.talking_agents.graph.common.prompt import load_prompt
 
 log = logging.getLogger(__name__)
 

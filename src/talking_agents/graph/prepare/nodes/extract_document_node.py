@@ -6,9 +6,9 @@ from typing import Any
 from unstructured_client.models import operations, shared
 from pathlib import Path
 
-from talking_agents.graph import INode
-from talking_agents.graph.prepare import PrepareState
-from talking_agents.common.document_store import DocumentStore
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare import PrepareState
+from src.talking_agents.common.document_store import DocumentStore
 
 log = logging.getLogger(__name__)
 

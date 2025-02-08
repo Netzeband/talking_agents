@@ -6,10 +6,10 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import logging
 from langchain_core.tools import tool
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.answer_question import AnswerQuestionState
-from talking_agents.graph.common.preparation_content import Question
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.answer_question import AnswerQuestionState
+from src.talking_agents.graph.common.preparation_content import Question
 
 log = logging.getLogger(__name__)
 

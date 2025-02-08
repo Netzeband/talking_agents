@@ -6,9 +6,9 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import logging
 from pydantic import BaseModel, Field
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.guest import GuestState
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.guest import GuestState
 
 log = logging.getLogger(__name__)
 

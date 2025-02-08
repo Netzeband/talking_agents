@@ -3,12 +3,12 @@ from pathlib import Path
 import logging
 import time
 
-from talking_agents.graph import INode
-from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.graph.common.post_processing_content import VideoCreationContent
-from talking_agents.video_processing.audacity import Audacity
-from talking_agents.video_processing.audio_mixer import AudioMixer
-from talking_agents.video_processing.video_mixer import VideoMixer
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.post_processing import PostProcessingState
+from src.talking_agents.graph.common.post_processing_content import VideoCreationContent
+from src.talking_agents.video_processing.audacity import Audacity
+from src.talking_agents.video_processing.audio_mixer import AudioMixer
+from src.talking_agents.video_processing.video_mixer import VideoMixer
 
 log = logging.getLogger(__name__)
 

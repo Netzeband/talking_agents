@@ -2,10 +2,10 @@ from typeguard import typechecked
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.interview.interview_state import InterviewState
-from talking_agents.graph.common.interview_content import Message, InterviewRoles
-from talking_agents.graph.guest.guest_state import GuestState
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.interview.interview_state import InterviewState
+from src.talking_agents.graph.common.interview_content import Message, InterviewRoles
+from src.talking_agents.graph.guest.guest_state import GuestState
 
 log = logging.getLogger(__name__)
 

@@ -4,8 +4,8 @@ import logging
 from dotenv import load_dotenv
 from pathlib import Path
 
-from talking_agents.create import create
-from talking_agents.settings import Settings
+from src.talking_agents.create import create
+from src.talking_agents.settings import Settings
 
 
 def main():

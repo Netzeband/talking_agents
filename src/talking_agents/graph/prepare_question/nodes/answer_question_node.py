@@ -1,10 +1,10 @@
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.common.preparation_content import Question
-from talking_agents.graph.prepare_question import PrepareQuestionState
-from talking_agents.graph.answer_question import AnswerQuestionState
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.common.preparation_content import Question
+from src.talking_agents.graph.prepare_question import PrepareQuestionState
+from src.talking_agents.graph.answer_question import AnswerQuestionState
 
 log = logging.getLogger(__name__)
 

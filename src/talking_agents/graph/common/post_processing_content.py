@@ -2,9 +2,9 @@ from pydantic import BaseModel
 from pathlib import Path, PurePosixPath
 from typeguard import typechecked
 
-from talking_agents.common.textwrap import textwrap
-from talking_agents.common.languages import Languages, get_language_name
-from talking_agents.graph.common.interview_content import Message
+from src.talking_agents.common.textwrap import textwrap
+from src.talking_agents.common.languages import Languages, get_language_name
+from src.talking_agents.graph.common.interview_content import Message
 
 
 class VideoCreationContent(BaseModel):

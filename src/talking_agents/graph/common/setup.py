@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from pathlib import PurePosixPath, Path
 from datetime import datetime
 
-from talking_agents.common import Persona, Languages
+from src.talking_agents.common import Persona, Languages
 
 
 class PodcastSetup(BaseModel):

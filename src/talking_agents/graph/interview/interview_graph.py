@@ -2,10 +2,10 @@ from langgraph.graph import StateGraph, START, END
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph.interview.nodes import Nodes
-from talking_agents.graph.interview.interview_state import InterviewState
-from talking_agents.graph.common.interview_content import InterviewRoles
-from talking_agents.graph import INode
+from src.talking_agents.graph.interview.nodes import Nodes
+from src.talking_agents.graph.interview.interview_state import InterviewState
+from src.talking_agents.graph.common.interview_content import InterviewRoles
+from src.talking_agents.graph import INode
 
 log = logging.getLogger(__name__)
 

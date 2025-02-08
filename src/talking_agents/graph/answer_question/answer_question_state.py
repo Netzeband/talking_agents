@@ -3,8 +3,8 @@ from langchain_core.messages import BaseMessage
 from langgraph.graph import add_messages
 from typing import Annotated
 
-from talking_agents.graph.common.setup import PodcastSetup
-from talking_agents.graph.common.preparation_content import (
+from src.talking_agents.graph.common.setup import PodcastSetup
+from src.talking_agents.graph.common.preparation_content import (
     PreparationContent, Question, Redundancy, Groundedness, FollowUp
 )
 

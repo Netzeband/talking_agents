@@ -5,12 +5,12 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
-from talking_agents.graph import INode
-from talking_agents.common.few_shot_examples import FewShotExamples
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph.common.preparation_content import Question
-from talking_agents.graph.prepare_question import PrepareQuestionState
-from talking_agents.graph.prepare_question.get_question_history import get_question_history
+from src.talking_agents.graph import INode
+from src.talking_agents.common.few_shot_examples import FewShotExamples
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph.common.preparation_content import Question
+from src.talking_agents.graph.prepare_question import PrepareQuestionState
+from src.talking_agents.graph.prepare_question.get_question_history import get_question_history
 
 log = logging.getLogger(__name__)
 

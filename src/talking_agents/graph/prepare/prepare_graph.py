@@ -4,13 +4,13 @@ from langgraph.graph import StateGraph, START, END
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph.common.preparation_content import Question
-from talking_agents.graph.prepare.nodes import Nodes
-from talking_agents.graph.prepare.prepare_state import PrepareState
-from talking_agents.graph import INode
-from talking_agents.common.vector_store import VectorStore
-from talking_agents.common.document_store import DocumentStore
-from talking_agents.graph.common.preparation_content import Topic
+from src.talking_agents.graph.common.preparation_content import Question
+from src.talking_agents.graph.prepare.nodes import Nodes
+from src.talking_agents.graph.prepare.prepare_state import PrepareState
+from src.talking_agents.graph import INode
+from src.talking_agents.common.vector_store import VectorStore
+from src.talking_agents.common.document_store import DocumentStore
+from src.talking_agents.graph.common.preparation_content import Topic
 
 log = logging.getLogger(__name__)
 

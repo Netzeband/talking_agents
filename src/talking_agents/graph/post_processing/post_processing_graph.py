@@ -3,9 +3,9 @@ from typeguard import typechecked
 from pathlib import Path
 import logging
 
-from talking_agents.graph.post_processing.nodes import Nodes
-from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.graph import INode
+from src.talking_agents.graph.post_processing.nodes import Nodes
+from src.talking_agents.graph.post_processing import PostProcessingState
+from src.talking_agents.graph import INode
 
 log = logging.getLogger(__name__)
 

@@ -7,7 +7,7 @@ import time
 from typeguard import typechecked
 import logging
 
-from talking_agents.settings import Settings
+from src.talking_agents.settings import Settings
 from .interface_speech_engine import ISpeechEngine, SpeechText, SpeechEngineError, VoiceConfig
 
 log = logging.getLogger(__name__)

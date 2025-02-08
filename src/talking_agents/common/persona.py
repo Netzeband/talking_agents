@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field
 from pathlib import Path
 import yaml
 
-from talking_agents.common.languages import Languages
-from talking_agents.common import VoiceConfig
+from src.talking_agents.common.languages import Languages
+from src.talking_agents.common import VoiceConfig
 
 
 class Persona(BaseModel):

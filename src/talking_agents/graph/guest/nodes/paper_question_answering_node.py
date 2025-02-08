@@ -5,9 +5,9 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import SystemMessage, BaseMessage
 from langchain_core.output_parsers import StrOutputParser
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.guest import GuestState
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.guest import GuestState
 
 log = logging.getLogger(__name__)
 

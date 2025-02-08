@@ -4,10 +4,10 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_core.language_models import BaseChatModel
 import logging
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.generate_topics import GenerateTopicsState
-from talking_agents.graph.common.preparation_content import Topic as PreparationTopic
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.generate_topics import GenerateTopicsState
+from src.talking_agents.graph.common.preparation_content import Topic as PreparationTopic
 
 log = logging.getLogger(__name__)
 

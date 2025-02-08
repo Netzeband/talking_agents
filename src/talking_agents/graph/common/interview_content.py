@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from enum import StrEnum
 from pathlib import Path
 
-from talking_agents.common import textwrap
+from src.talking_agents.common import textwrap
 
 
 class InterviewRoles(StrEnum):

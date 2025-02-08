@@ -4,10 +4,10 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import ChatPromptTemplate
 import logging
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.prepare import PrepareState
-from talking_agents.common.vector_store import VectorStore
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare import PrepareState
+from src.talking_agents.common.vector_store import VectorStore
 
 log = logging.getLogger(__name__)
 

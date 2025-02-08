@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from talking_agents.graph.common.setup import PodcastSetup
-from talking_agents.graph.common.preparation_content import PreparationContent, Topic
+from src.talking_agents.graph.common.setup import PodcastSetup
+from src.talking_agents.graph.common.preparation_content import PreparationContent, Topic
 
 
 class GenerateTopicsState(BaseModel):

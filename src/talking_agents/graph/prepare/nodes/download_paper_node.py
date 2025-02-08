@@ -5,8 +5,8 @@ import urllib.parse
 import httpx
 from pathlib import Path
 
-from talking_agents.graph import INode
-from talking_agents.graph.prepare import PrepareState
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare import PrepareState
 
 log = logging.getLogger(__name__)
 

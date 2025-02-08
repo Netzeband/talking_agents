@@ -4,9 +4,9 @@ from pydantic import BaseModel, Field
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.language_models import BaseChatModel
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.prepare.prepare_state import PrepareState
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare.prepare_state import PrepareState
 
 log = logging.getLogger(__name__)
 

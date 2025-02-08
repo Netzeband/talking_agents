@@ -1,11 +1,11 @@
 from pydantic import BaseModel, Field
 from pathlib import Path
 
-from talking_agents.graph.common.setup import PodcastSetup
-from talking_agents.common import Languages
-from talking_agents.graph.common.preparation_content import PreparationContent
-from talking_agents.graph.common.interview_content import InterviewContent
-from talking_agents.graph.common.post_processing_content import PostProcessingContent
+from src.talking_agents.graph.common.setup import PodcastSetup
+from src.talking_agents.common import Languages
+from src.talking_agents.graph.common.preparation_content import PreparationContent
+from src.talking_agents.graph.common.interview_content import InterviewContent
+from src.talking_agents.graph.common.post_processing_content import PostProcessingContent
 
 
 class PodcastContent(BaseModel):

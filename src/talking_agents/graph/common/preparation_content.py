@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any
 from datetime import datetime
 
-from talking_agents.common import textwrap
+from src.talking_agents.common import textwrap
 
 
 class Redundancy(BaseModel):

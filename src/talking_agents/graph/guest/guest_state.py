@@ -3,8 +3,8 @@ from pydantic import BaseModel, Field
 from langchain_core.messages import BaseMessage
 from langgraph.graph import add_messages
 
-from talking_agents.graph.common.setup import PodcastSetup
-from talking_agents.graph.common.preparation_content import PreparationContent, Redundancy, Groundedness
+from src.talking_agents.graph.common.setup import PodcastSetup
+from src.talking_agents.graph.common.preparation_content import PreparationContent, Redundancy, Groundedness
 
 
 class GuestState(BaseModel):

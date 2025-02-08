@@ -1,9 +1,9 @@
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.prepare.prepare_state import PrepareState
-from talking_agents.graph.generate_topics import GenerateTopicsState
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare.prepare_state import PrepareState
+from src.talking_agents.graph.generate_topics import GenerateTopicsState
 
 log = logging.getLogger(__name__)
 

@@ -5,10 +5,10 @@ from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, System
 from pydantic import BaseModel, Field
 import logging
 
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph import INode
-from talking_agents.graph.interview.interview_state import InterviewState
-from talking_agents.graph.common.interview_content import Message, InterviewRoles
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.interview.interview_state import InterviewState
+from src.talking_agents.graph.common.interview_content import Message, InterviewRoles
 
 log = logging.getLogger(__name__)
 

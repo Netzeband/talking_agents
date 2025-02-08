@@ -1,9 +1,9 @@
 from typeguard import typechecked
 from langgraph.utils.runnable import RunnableCallable
 
-from talking_agents.graph.common import ToolUsageNode as ToolUsageNode
-from talking_agents.graph import INode
-from talking_agents.graph.guest import GuestState
+from src.talking_agents.graph.common import ToolUsageNode as ToolUsageNode
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.guest import GuestState
 
 
 class GuestToolUsageNode(ToolUsageNode[GuestState]):

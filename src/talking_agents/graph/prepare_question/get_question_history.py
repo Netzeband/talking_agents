@@ -1,7 +1,7 @@
 from typeguard import typechecked
 from langchain_core.messages import BaseMessage
 
-from talking_agents.graph.common.preparation_content import Question
+from src.talking_agents.graph.common.preparation_content import Question
 
 
 @typechecked()

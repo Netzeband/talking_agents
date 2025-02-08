@@ -3,9 +3,9 @@ from langchain_core.messages import AIMessage
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph.guest.nodes import Nodes
-from talking_agents.graph.guest import GuestState
-from talking_agents.graph import INode
+from src.talking_agents.graph.guest.nodes import Nodes
+from src.talking_agents.graph.guest import GuestState
+from src.talking_agents.graph import INode
 
 log = logging.getLogger(__name__)
 

@@ -5,10 +5,10 @@ from pathlib import PurePosixPath
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.common.prompt import load_prompt
-from talking_agents.graph.post_processing import PostProcessingState
-from talking_agents.graph.common.interview_content import InterviewRoles
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.common.prompt import load_prompt
+from src.talking_agents.graph.post_processing import PostProcessingState
+from src.talking_agents.graph.common.interview_content import InterviewRoles
 
 log = logging.getLogger(__name__)
 

@@ -2,9 +2,9 @@ from langgraph.graph import StateGraph, START, END
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph.answer_question import AnswerQuestionState
-from talking_agents.graph.answer_question.nodes import AnswerQuestionNodes
-from talking_agents.graph import INode
+from src.talking_agents.graph.answer_question import AnswerQuestionState
+from src.talking_agents.graph.answer_question.nodes import AnswerQuestionNodes
+from src.talking_agents.graph import INode
 
 log = logging.getLogger(__name__)
 

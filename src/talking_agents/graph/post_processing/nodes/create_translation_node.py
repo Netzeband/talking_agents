@@ -1,9 +1,9 @@
 from typeguard import typechecked
 import logging
 
-from talking_agents.graph import INode
-from talking_agents.graph.post_processing import PostProcessingState, Languages
-from talking_agents.graph.common.interview_content import Message
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.post_processing import PostProcessingState, Languages
+from src.talking_agents.graph.common.interview_content import Message
 
 log = logging.getLogger(__name__)
 

@@ -6,10 +6,10 @@ from unstructured.documents.elements import Element, Table, Image, NarrativeText
 from unstructured.chunking.title import chunk_by_title
 from langchain_core.documents import Document
 
-from talking_agents.graph import INode
-from talking_agents.graph.prepare.prepare_state import PrepareState
-from talking_agents.common.vector_store import VectorStore
-from talking_agents.common.document_store import DocumentStore
+from src.talking_agents.graph import INode
+from src.talking_agents.graph.prepare.prepare_state import PrepareState
+from src.talking_agents.common.vector_store import VectorStore
+from src.talking_agents.common.document_store import DocumentStore
 
 log = logging.getLogger(__name__)
 
