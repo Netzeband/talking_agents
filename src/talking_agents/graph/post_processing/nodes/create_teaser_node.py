@@ -27,23 +27,25 @@ class CreateTeaserNode(INode[PostProcessingState]):
     @typechecked()
     async def run(self, state: PostProcessingState) -> PostProcessingState:
         log.info("** POST-PROCESSING: CREATE TEASER **")
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", "{system_prompt}"),
-            MessagesPlaceholder("interview")
-        ])
-        model = prompt | self._llm.with_structured_output(CreateTeaserNodeOutput)
-        response: CreateTeaserNodeOutput = await model.ainvoke({
-            "system_prompt": load_prompt("post_processing", "create_teaser").render({
-                "paper_title": state.preparation.title,
-                "episode_number": state.setup.episode_number,
-                "date": state.preparation.date.strftime("%A the %B %d, %Y"),
-                "role_description": state.setup.moderator.get_role_description(),
-                "guest_name": state.setup.guest.name,
-                "language": get_language_name(state.content.language),
-            }),
-            "interview": self._get_interview(state.content.interview, state.setup),
-        })
-        state.content.core_teaser = response.teaser
+        if state.content.core_teaser is None:
+            prompt = ChatPromptTemplate.from_messages([
+                ("system", "{system_prompt}"),
+                MessagesPlaceholder("interview")
+            ])
+            model = prompt | self._llm.with_structured_output(CreateTeaserNodeOutput)
+            response = await model.ainvoke({
+                "system_prompt": load_prompt("post_processing", "create_teaser").render({
+                    "paper_title": state.preparation.title,
+                    "episode_number": state.setup.episode_number,
+                    "date": state.preparation.date.strftime("%A the %B %d, %Y"),
+                    "role_description": state.setup.moderator.get_role_description(),
+                    "guest_name": state.setup.guest.name,
+                    "language": get_language_name(state.content.language),
+                }),
+                "interview": self._get_interview(state.content.interview, state.setup),
+            })
+            state.content.core_teaser = response.teaser
+
         state.content.full_teaser = load_prompt(
             "post_processing",
             f"teaser_{state.content.language}"
@@ -51,6 +53,7 @@ class CreateTeaserNode(INode[PostProcessingState]):
             "teaser": state.content.core_teaser,
             "paper_title": state.preparation.title,
             "paper_url": state.setup.paper_url,
+            "episode_number": state.setup.episode_number,
         })
         log.info(f" * Teaser: {state.content.full_teaser}")
         return state
