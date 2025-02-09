@@ -10,10 +10,9 @@ _{{ teaser }}_
 
 ## Quality KPIs
 
-When questions are poorly phrased, they can strongly overlap in content. The current implementation can detect this
-redundancy in the answers but cannot compensate for it. Addressing this issue will be a feature in an upcoming
-implementation. Therefore, the redundancy score serves as a measure of question quality. It is calculated individually
-for each question-answer pair.
+When questions are poorly phrased, they can strongly overlap in content. The current implementation detects this
+redundancy and tries to avoid a redundancy greater than 50%. Therefore, the redundancy score serves as a measure of
+question quality. It is calculated individually for each question-answer pair.
 
 * Average Redundancy Score: {{ average_redundancy_score }}
 * Maximum Redundancy Score: {{ max_redundancy_score }}

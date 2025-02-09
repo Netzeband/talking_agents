@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0" version="26.0.11">
+  <diagram name="Seite-1" id="gr0HYO1fIBJKQa5bnn0N">
+    <mxGraphModel dx="1562" dy="818" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-1" target="qtG_5a0BVI80dP9tNTZa-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-1" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="150" y="70" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-3" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="150" y="670" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-4" target="qtG_5a0BVI80dP9tNTZa-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-4" value="Create Translation" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="130" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-6" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:create_translation&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;performs a translation of the podcast episode content to every configured language&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="140" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-7" target="qtG_5a0BVI80dP9tNTZa-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-7" value="Create Teaser" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="220" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-8" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:create_teaser&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;creates the teaser text&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="230" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-12" target="qtG_5a0BVI80dP9tNTZa-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-12" value="Create Markdown" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="310" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-13" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:create_markdown&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;creates the markdown transcript of the podcast episode&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="320" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-15" target="qtG_5a0BVI80dP9tNTZa-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-15" value="Adapt Interview" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="400" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-16" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:adapt_interview&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;enriches the text of the interview with SSML to get a more natural output of the speech&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="410" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-18" target="qtG_5a0BVI80dP9tNTZa-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-18" value="Create Audio" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="490" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-19" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:create_audio&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;creates the audio file for the podcast episode&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="500" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qtG_5a0BVI80dP9tNTZa-21" target="qtG_5a0BVI80dP9tNTZa-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-21" value="Create Video" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="110" y="580" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qtG_5a0BVI80dP9tNTZa-22" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;post_processing:create_video&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;mixes the podcast episode audio file with the intro- and outro-music and generates a mp4 file&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="590" width="280" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

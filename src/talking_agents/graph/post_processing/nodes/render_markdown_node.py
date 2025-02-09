@@ -98,9 +98,9 @@ class RenderMarkdownNode(INode[PostProcessingState]):
             if (message.metadata is not None and
                 "redundancy" in message.metadata and
                 message.metadata["redundancy"] is not None and
-                "redundancy_score" in message.metadata["redundancy"]
+                "score" in message.metadata["redundancy"]
             ):
-                numbers.append(message.metadata["redundancy"]["redundancy_score"])
+                numbers.append(message.metadata["redundancy"]["score"])
         if len(numbers) == 0:
             return 0.0, 0.0
         return sum(numbers)/len(numbers), max(numbers)
@@ -112,9 +112,9 @@ class RenderMarkdownNode(INode[PostProcessingState]):
             if (message.metadata is not None and
                 "groundedness" in message.metadata and
                 message.metadata["groundedness"] is not None and
-                "grounded_score" in message.metadata["groundedness"]
+                "score" in message.metadata["groundedness"]
             ):
-                numbers.append(message.metadata["groundedness"]["grounded_score"])
+                numbers.append(message.metadata["groundedness"]["score"])
         if len(numbers) == 0:
             return 0.0, 0.0
         return sum(numbers)/len(numbers), min(numbers)
@@ -136,4 +136,4 @@ class RenderMarkdownNode(INode[PostProcessingState]):
                         pass
 
         web_sources = set(web_sources)
-        return "\n".join([f" * [{url}]({url})" for url in web_sources])
+        return "\n".join([f"* [{url}]({url})" for url in web_sources])

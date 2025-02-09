@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0" version="26.0.11">
+  <diagram name="Seite-1" id="-CPTUap74OQBZTpQZPIg">
+    <mxGraphModel dx="1562" dy="818" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-J5VIguFf9j-k8yqBksf-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-1" target="-J5VIguFf9j-k8yqBksf-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-1" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=light-dark(#000000, #ff9090);" vertex="1" parent="1">
+          <mxGeometry x="230" y="130" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-3" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="230" y="1280" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-4" target="-J5VIguFf9j-k8yqBksf-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-4" value="Download Paper" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="200" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-5" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:download_paper&lt;br&gt;&lt;br&gt;&lt;/b&gt;downloads the paper from the given url&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-6" target="-J5VIguFf9j-k8yqBksf-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-6" value="Extract Document" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="300" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-9" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:extract_document&lt;br&gt;&lt;br&gt;&lt;/b&gt;extracts the PDF document into unstructured.io elements&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="310" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-10" target="-J5VIguFf9j-k8yqBksf-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-10" value="Create Image Descriptions" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="390" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-11" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_image_descriptions&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates a description for every image, found in the paper by considering the textual context of the image&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="400" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-13" target="-J5VIguFf9j-k8yqBksf-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-13" value="Create Table Descriptions" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="480" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-14" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_table_descriptions&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates a description for every table, found in the paper by considering the textual context of the table&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="490" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-16" target="-J5VIguFf9j-k8yqBksf-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-16" value="Create Title" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="750" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-17" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_title&lt;br&gt;&lt;/b&gt;&lt;br&gt;extracts the title from the paper&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="760" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-19" target="-J5VIguFf9j-k8yqBksf-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-19" value="Create Summary" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="840" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-20" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_summary&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates a summary of the paper, which outputs all topics handled by it&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="850" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-23" target="-J5VIguFf9j-k8yqBksf-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-23" value="Create Introduction" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1020" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-24" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_introduction&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates the podcast episode introduction&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1030" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-26" target="-J5VIguFf9j-k8yqBksf-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-26" value="Create Topics" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="930" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-27" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_topics&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates the podcast episode introduction&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="940" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-29" target="-J5VIguFf9j-k8yqBksf-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-29" value="Create Vector Store" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="570" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-30" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_vector_store&lt;br&gt;&lt;/b&gt;&lt;br&gt;performs a chunking (by title) over the document and stores it into a vector store&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="580" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-32" target="-J5VIguFf9j-k8yqBksf-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-32" value="Find Examples" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="660" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-33" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:find_examples&lt;br&gt;&lt;/b&gt;&lt;br&gt;searches for examples inside the paper, generates a description and summary about very example and stores it into another vector store&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="670" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-43" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-38" target="-J5VIguFf9j-k8yqBksf-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-38" value="Create Questions" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1110" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-39" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_questions[:&amp;lt;topic-number&amp;gt;]&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates the questions and answer notes (bullet points)&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1120" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-44" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-J5VIguFf9j-k8yqBksf-41" target="-J5VIguFf9j-k8yqBksf-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-41" value="Create Wrap-Up" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1200" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-J5VIguFf9j-k8yqBksf-42" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;prepare:create_wrap_up&lt;br&gt;&lt;br&gt;&lt;/b&gt;creates the wrap-up of the podcast episode&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1210" width="380" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
