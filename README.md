@@ -15,7 +15,6 @@ podcast episode, which is fun to listen to.
 
 Example episodes:
 * [Episode 1: Attention Is All You Need](https://youtu.be/6xGT6v_e27U)
-* [Episode 2: Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://youtu.be/s_OSDGNtT4g)
 
 ## Installation
 
