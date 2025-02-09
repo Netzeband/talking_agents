@@ -1,5 +1,7 @@
 # Talking Agents
 
+<img src="assets/talking_agents_small.jpg" width="500px" alt="Talking Agents"></img>
+
 ## Introduction
 
 Talking Agents is an AI tool for automatically creating podcast episodes out of
