@@ -10,17 +10,20 @@ _{{ teaser }}_
 
 ## Quality KPIs
 
-When questions are poorly phrased, they can strongly overlap in content. The current implementation detects this
-redundancy and tries to avoid a redundancy greater than 50%. Therefore, the redundancy score serves as a measure of
+When questions are poorly phrased, they can strongly overlap in content. The
+current implementation detects this redundancy and tries to avoid redundancy
+greater than 50%. Therefore, the redundancy score serves as a measure of
 question quality. It is calculated individually for each question-answer pair.
 
 * Average Redundancy Score: {{ average_redundancy_score }}
 * Maximum Redundancy Score: {{ max_redundancy_score }}
 
-When the guest AI provides an answer, it may occasionally not be based on the sources but instead be hallucinated or
-derived from the general knowledge of the foundational model. The current implementation includes a measurement to
-assess how strongly each aspect of the answer is grounded in the referenced sources. It also has a feature to prevent
-answers with a groundedness score lower than {{ min_accepted_groundedness_score }}. The groundedness score is
+When the guest AI provides an answer, it may occasionally not be based on the
+sources but instead be hallucinated or derived from the general knowledge of
+the foundational model. The current implementation includes a measurement to
+assess how strongly each aspect of the answer is grounded in the referenced
+sources. It also has a feature to prevent answers with a groundedness score
+lower than {{ min_accepted_groundedness_score }}. The groundedness score is
 calculated individually for each question-answer pair.
 
 * Average Groundedness Score: {{ average_groundedness_score }}
