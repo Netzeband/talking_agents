@@ -321,6 +321,15 @@ for the podcast episode (at the moment only English).
 
 ## Limitations and Possible Improvements
 
+One of the most obvious idea for improvements is to use audio output of models
+like `gpt-4o-audio-preview` for generating the podcast audio. This leads to
+a very strong increase of quality, since the voice output of this model is
+much more natural than the voice output of the TTS model from Azure. However,
+the costs would increase drastically, since generating the interview of a single
+episode would cost around 500.000 tokens, which is around $20 for the current 
+prices of `gpt-4o-audio-preview`. I have already implemented a proof of concept,
+and it works quite well, but I need to wait until cheaper models are available.
+
 During my work on that project, I identified two very important steps of the
 podcast creation, which affect the output quality much more than every other
 step:
