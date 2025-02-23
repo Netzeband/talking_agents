@@ -1,0 +1,6 @@
+episode_number: 4
+paper_url: "https://www.microsoft.com/en-us/research/uploads/prod/2025/01/lee_2025_ai_critical_thinking_survey.pdf?ref=404media.co"
+moderator_persona: "personas/host_frank.yaml"
+guest_persona: "personas/guest_sandra.yaml"
+languages:
+  - "en"
