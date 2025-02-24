@@ -1,0 +1,6 @@
+episode_number: 5
+paper_url: "https://arxiv.org/pdf/2407.12101"
+moderator_persona: "personas/host_frank.yaml"
+guest_persona: "personas/guest_sandra.yaml"
+languages:
+  - "en"
