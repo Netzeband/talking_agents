@@ -1,0 +1,6 @@
+episode_number: 6
+paper_url: "https://dl.acm.org/doi/pdf/10.1145/3613904.3642700"
+moderator_persona: "personas/host_frank.yaml"
+guest_persona: "personas/guest_sandra.yaml"
+languages:
+  - "en"
