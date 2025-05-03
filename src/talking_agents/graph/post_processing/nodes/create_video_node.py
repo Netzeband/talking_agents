@@ -45,12 +45,13 @@ class CreateVideoNode(INode[PostProcessingState]):
             podcast_video_file=state.setup.episode_output_dir / state.content.output_path / video_podcast_file_name,
         )
 
-        log.info("* Create processed audio file ...")
-        with self._audacity as audacity:
-            audacity.open_file(state.setup.episode_output_dir / state.content.audio_path)
-            audacity.apply_macro("Radio-Sound")
-            audacity.export_wave(state.content.video.processed_audio_file)
-            time.sleep(10)
+        if not state.content.video.processed_audio_file.exists():
+            log.info("* Create processed audio file ...")
+            with self._audacity as audacity:
+                audacity.open_file(state.setup.episode_output_dir / state.content.audio_path)
+                audacity.apply_macro("Radio-Sound")
+                audacity.export_wave(state.content.video.processed_audio_file)
+                time.sleep(10)
 
         log.info("* Mix podcast audio file ...")
         self._audio_mixer.mix(
