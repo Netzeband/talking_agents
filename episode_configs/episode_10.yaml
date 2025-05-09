@@ -1,0 +1,6 @@
+episode_number: 10
+paper_url: "https://arxiv.org/abs/1905.07830"
+moderator_persona: "personas/host_frank.yaml"
+guest_persona: "personas/guest_sandra.yaml"
+languages:
+  - "en"
